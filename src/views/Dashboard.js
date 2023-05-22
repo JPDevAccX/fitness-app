@@ -59,32 +59,35 @@ export default function Dashboard({viewCommon}) {
 				const targetValue = userDataState.profile.weightGoalValue ;
 				const weightGoalUnits = userDataState.profile.weightGoalUnits ;
 				const weightUnits = userDataState.prefs.weightUnits ;
-				
+
 				// Determine initial and current values (weight / bmi / bmiPrime) depending on the units of the target
 				const initialValue = convertBetweenWeightAndBMI(initialWeight, 'absolute', weightGoalUnits, initialHeight) ;
 				const currentValue = convertBetweenWeightAndBMI(currentWeight, 'absolute', weightGoalUnits, currentHeight) ;
 				
-				// Calculate progress
-				let progressPercent = 100 ;
-				if (targetValue !== initialValue) progressPercent = Math.max(((currentValue - initialValue) / (targetValue - initialValue)), 0) * 100 ;
+				// - Calculate progress -
+				// (sanity check that initial and target values are different - otherwise we can't calculate a meaningful value)
+				if (targetValue !== initialValue) {
+					// Calculate percentage (we cap minimum at zero as we don't want to be demoralising but we do allow values > 100%)
+					const progressPercent = Math.max(((currentValue - initialValue) / (targetValue - initialValue)), 0) * 100 ;
 
-				// Determine initial and target value strings
-				let initialValueString, targetValueString ;
+					// Determine initial and target value strings
+					let initialValueString, targetValueString ;
 
-				if (weightGoalUnits === 'absolute') {
-					initialValueString = formatUnits(convertWeight([initialValue], 'kg', weightUnits), weightUnits) ;
-					targetValueString = formatUnits(convertWeight([targetValue], 'kg', weightUnits), weightUnits) ;
-				}
-				else if (weightGoalUnits === 'bmi') {
-					initialValueString = roundValue(initialValue, 1) + ' BMI' ;
-					targetValueString = roundValue(targetValue, 1) + ' BMI' ;
-				}
-				else {
-					initialValueString = roundValue(initialValue, 2) + ' BMI Prime' ;
-					targetValueString = roundValue(targetValue, 2) + ' BMI Prime' ;
-				}
+					if (weightGoalUnits === 'absolute') {
+						initialValueString = formatUnits(convertWeight([initialValue], 'kg', weightUnits), weightUnits) ;
+						targetValueString = formatUnits(convertWeight([targetValue], 'kg', weightUnits), weightUnits) ;
+					}
+					else if (weightGoalUnits === 'bmi') {
+						initialValueString = roundValue(initialValue, 1) + ' BMI' ;
+						targetValueString = roundValue(targetValue, 1) + ' BMI' ;
+					}
+					else {
+						initialValueString = roundValue(initialValue, 2) + ' BMI Prime' ;
+						targetValueString = roundValue(targetValue, 2) + ' BMI Prime' ;
+					}
 
-				changeWeightTargetData({progressPercent, initialValueString, targetValueString}) ;
+					changeWeightTargetData({progressPercent, initialValueString, targetValueString}) ;
+				}
 			}
 		) ;
 	}
