@@ -1,5 +1,3 @@
-	// *** IMPORTANT: METRIC UNIT MUST BE FIRST IN LIST ***
-	
 	const weightUnitOpts = [
 		{value: 'kg'},
 		{value: 'lbs'},
@@ -28,6 +26,9 @@
 	}
 
 	export function convertWeight(valsIn, valInUnits, valOutUnits) {
+		if (valInUnits === 'metric') valInUnits = 'kg' ;
+		if (valOutUnits === 'metric') valOutUnits = 'kg' ;
+
 		const kg_per_lbs = 0.4535924 ;
 		const lbs_per_st = 14 ;
 		const kg_per_st = (kg_per_lbs * lbs_per_st) ;
@@ -55,6 +56,9 @@
 	}
 
 	export function convertHeight(valsIn, valInUnits, valOutUnits) {
+		if (valInUnits === 'metric') valInUnits = 'm' ;
+		if (valOutUnits === 'metric') valOutUnits = 'm' ;
+		
 		const m_per_inc = 0.0254 ;
 		const in_per_ft = 12 ;
 		const m_per_ft = (m_per_inc * in_per_ft) ;
