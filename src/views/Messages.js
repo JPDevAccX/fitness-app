@@ -39,12 +39,12 @@ export default function Messages({viewCommon}) {
 
 	// === Retrieve contacts and message metadata ===
 	function getContacts(isAuto = false) {
-		contactService.retrieveContacts(isAuto).then(({data: contacts}) => {
+		contactService.retrieveContacts(isAuto).then((contacts) => {
 			userDataDispatch({ type: "setContacts", data: contacts});
 		}) ;
 	}
 	function getMessageMetas(isAuto = false) {
-		messageService.retrieveMessageMetas(isAuto).then(({data: messageMetas}) => {
+		messageService.retrieveMessageMetas(isAuto).then((messageMetas) => {
 			userDataDispatch({ type: "setMessageMetas", data: messageMetas});
 		}) ;
 	}
@@ -101,7 +101,7 @@ export default function Messages({viewCommon}) {
 	}
 
 	function getFullMessage(messageId) {
-		messageService.retrieveMessageContent(messageId).then(({data: messageContent}) => {
+		messageService.retrieveMessageContent(messageId).then((messageContent) => {
 			changeMessageContentTable(state => ({...state, [messageId]: messageContent}))
 		}) ;
 	}

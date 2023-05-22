@@ -24,8 +24,8 @@ function Community(props) {
 
     useEffect(() => {
         communityService.getCommunityPosts()
-            .then(response => {
-                changePosts(response.data)
+            .then(data => {
+                changePosts(data)
             })
             .catch(error => {
                 console.log(error)
@@ -42,8 +42,7 @@ function Community(props) {
     }
 
     const findUser = async (data) => {
-        const response = await userProfileService.getProfile(data)
-        return response.data
+        return await userProfileService.getProfile(data)
     }
 
     const submitHandler = async (e) => {

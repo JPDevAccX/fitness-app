@@ -24,21 +24,21 @@ function Recipes(props) {
         unit: "g",
     });
 
-    async function getRecipes(data) {
-        const response = await foodAPIClient.getRecipe(data);
+    async function getRecipes(requestData) {
+        const data = await foodAPIClient.getRecipe(requestData);
 
-        if (response.data.results.length === 0) {
+        if (data.results.length === 0) {
             props.changeErrorMessage("No recipes found")
             handleShow()
             return
         }
-        return props.changeRecipes(response.data.results)
+        return props.changeRecipes(data.results)
     }
 
     useEffect(() => {
         props.netService.get('allrecipes')
-            .then(response => {
-                props.changeRecipes(response.data)
+            .then(data => {
+                props.changeRecipes(data)
             })
             .catch(error => {
                 console.log(error)
@@ -91,16 +91,15 @@ function Recipes(props) {
     }
 
     const getNutrition = async (data, amount, unit) => {
-        const response = await foodAPIClient.getIngredientInfo(data, amount, unit);
-        return response.data
+        return await foodAPIClient.getIngredientInfo(data, amount, unit);
     }
 
-    const getID = async (data) => {
-        const response = await foodAPIClient.getIngredientID(data);
-        if (response.data.results.length === 0) {
+    const getID = async (requestData) => {
+        const data = await foodAPIClient.getIngredientID(requestData);
+        if (data.results.length === 0) {
             return "Ingredient not found"
         }
-        return response.data.results[0].id
+        return data.results[0].id
     }
 
     async function sunbmitHandlerNutrition(event) {

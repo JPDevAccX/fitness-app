@@ -51,7 +51,7 @@ export default function Dashboard({viewCommon}) {
 	function getWeightProgressValues() {
 		const p1 = userValuesHistoryService.retrieveFirstValForField('weight') ;
 		const p2 = userValuesHistoryService.retrieveFirstValForField('height') ;
-		Promise.all([p1, p2]).then(([{data: initialWeightData}, { data: initialHeightData}]) => {
+		Promise.all([p1, p2]).then(([initialWeightData, initialHeightData]) => {
 				const initialWeight = initialWeightData.value ;
 				const initialHeight = initialHeightData.value ;
 				const currentWeight = userDataState.profile.weight ;

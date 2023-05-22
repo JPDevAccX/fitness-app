@@ -23,20 +23,17 @@ function SinglePost(props) {
 		const userProfileService = new UserProfileService(props.viewCommon.net);
 
     const updateLikes = async () => {
-        const response = await communityService.getLikesCount(props.post._id)
-        const likes = await response.data
+        const likes = await communityService.getLikesCount(props.post._id)
         changeLikeCounter(likes)
     }
 
     const updateLols = async () => {
-        const response = await communityService.getLolsCount(props.post._id)
-        const lols = await response.data
+        const lols = await communityService.getLolsCount(props.post._id)
         changeLolCounter(lols)
     }
 
     const updateComments = async () => {
-        const response = await communityService.getCommentCount(props.post._id)
-        const comments = await response.data
+        const comments = await communityService.getCommentCount(props.post._id)
         changeCommentCounter(comments)
     }
 
@@ -50,19 +47,13 @@ function SinglePost(props) {
     }, [])
 
     const likePost = async () => {
-        const response = await communityService.addLikeToPost(props.post._id)
-
-        if (response.status === 200) {
-            updateLikes()
-        }
+        await communityService.addLikeToPost(props.post._id)
+        updateLikes()
     }
 
     const lolPost = async () => {
-        const response = await communityService.addLolToPost(props.post._id)
-
-        if (response.status === 200) {
-            updateLols()
-        }
+        await communityService.addLolToPost(props.post._id)
+				updateLols()
     }
 
     const [lgShow, setLgShow] = useState(false);
@@ -76,9 +67,7 @@ function SinglePost(props) {
     }
 
     const findUser = async (data) => {
-        const response = await userProfileService.getProfile(data);
-        console.log(response)
-        return response.data
+        return await userProfileService.getProfile(data);
     }
 
     const showProfile = async () => {
