@@ -1,8 +1,8 @@
 import './css/postPage.scss'
 import { useState, useEffect } from 'react'
-import { ReactComponent as Heart } from './images/redheart.svg'
-import { ReactComponent as Comments } from './images/comments.svg'
-import { ReactComponent as LolFace } from './images/lol2.svg'
+import { ReactComponent as Heart } from '../images/redheart.svg'
+import { ReactComponent as Comments } from '../images/comments.svg'
+import { ReactComponent as LolFace } from '../images/lol2.svg'
 import { Card, Button, Col, Row } from 'react-bootstrap';
 import SingleComment from '../components/SingleComment'
 import CommunityService from '../services/communityService'

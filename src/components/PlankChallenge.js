@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
-import plankImage from "./Images/plank.png";
+import plankImage from "../images/plank.png";
 
 function PlankChallenge() {
   const [seconds, setSeconds] = useState(0);

@@ -1,6 +1,6 @@
 // CSS
 import './css/userRegister.scss';
-import logo from '../components/Images/logo.png'
+import logo from '../images/logo.png'
 
 // React and other packages
 import { useState, useEffect } from 'react';

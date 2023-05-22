@@ -5,8 +5,8 @@ import { useState, useEffect } from 'react';
 
 import RecipeModal from './RecipeModal';
 import FoodAPIClient from "../services/API/foodApiService";
-import { ReactComponent as Heart } from "./Images/heart.svg"
-import { ReactComponent as Redheart } from "./Images/redheart.svg"
+import { ReactComponent as Heart } from "../images/heart.svg"
+import { ReactComponent as Redheart } from "../images/redheart.svg"
 
 
 function SingleRecipeCard(props) {

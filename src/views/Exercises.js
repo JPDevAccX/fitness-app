@@ -3,8 +3,8 @@ import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import ExerciseAPIClient from "../services/API/exerciseApiService";
 import "./css/exercises.scss";
-import logo from "../components/Images/logo.png";
-import top from "../components/Images/top.png";
+import logo from "../images/logo.png";
+import top from "../images/top.png";
 import WorkoutCard from "../components/WorkoutCard";
 
 function Exercises(props) {

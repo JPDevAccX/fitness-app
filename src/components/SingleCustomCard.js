@@ -1,7 +1,7 @@
 import './css/customWorkoutCard.scss'
 import { Card, Button } from 'react-bootstrap'
 import { formatDate, formatMonth, formatTime } from '../utils/utils'
-import logo from "./Images/logo.png"
+import logo from "../images/logo.png"
 import { useNavigate } from "react-router-dom";
 
 function SingleCustomCard(props) {
