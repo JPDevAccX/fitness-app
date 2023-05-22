@@ -23,15 +23,14 @@ function SingleRecipeCard(props) {
         checkIfRecipeIsSaved()
     }, [])
 
-    const changeUserRecipes = async (recipe) => {
+    const changeUserRecipes = async () => {
         const data = await foodAPIClient.getUserRecipes()
-        props.changeSavedRecipes(data)
-        return data
+        if (props.changeSavedRecipes) props.changeSavedRecipes(data)
     }
 
     const [lgShow, setLgShow] = useState(false);
 
-    function handleClickedRecipe() {
+    async function handleClickedRecipe() {
 
         heartIsRed ? setHeartIsRed(false) : setHeartIsRed(true)
 
@@ -40,7 +39,7 @@ function SingleRecipeCard(props) {
             id: props.id,
             imgUrl: props.imgUrl
         }
-        saveRecipeToDatabase(recipeParams)
+        await saveRecipeToDatabase(recipeParams)
         changeUserRecipes()
     }
 
@@ -70,7 +69,7 @@ function SingleRecipeCard(props) {
     }
 
     async function saveRecipeToDatabase(params) {
-        foodAPIClient.addRecipe({
+        await foodAPIClient.addRecipe({
             title: params.title,
             id: params.id,
             imageUrl: params.imgUrl

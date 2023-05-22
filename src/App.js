@@ -18,6 +18,7 @@ import NotificationService from "./services/notificationService";
 import NavigationBar from "./components/Navbar";
 import Footer from "./components/Footer";
 import StatusMessage from "./components/StatusMessage";
+import ErrorModal from "./components/ErrorModal";
 import Spinner from "./components/Spinner";
 
 // Our views (pages)
@@ -28,7 +29,7 @@ import UserProfile from "./views/UserProfile/UserProfile";
 import Dashboard from "./views/Dashboard";
 import UserAccountSettings from "./views/UserAccountSettings";
 import Recipes from './views/Recipes';
-import Exercises from './views/Exercises';
+import SingleWorkoutCard from './components/SingleWorkoutCard';
 import FrontPage from './views/FrontPage';
 import Community from './views/Community';
 import CustomWorkout from './views/CustomWorkout';
@@ -42,8 +43,6 @@ import ShowProfile from "./views/ShowProfile";
 
 // Contexts (global data)
 import { UserContext } from "./contexts/User"; // Stores user-prefs and profile data
-
-import NetService from "./netService"; // (*** don't think this should be needed ***)
 
 // ==============================================================================
 
@@ -82,21 +81,21 @@ export default function App() {
 	function getUserData() {
 		const userDataService = new UserDataService(commonData.net);
 		userDataService.retrieve()
-			.then(({ userPrefs, userProfile, contacts, messageMetas }) => {
-				console.log("RETRIEVING USER DATA FROM ENDPOINT");
-				userDataDispatch({ type: "setPrefs", data: userPrefs || {} });
-				userDataDispatch({ type: "setProfile", data: userProfile || {} });
-				userDataDispatch({ type: "setContacts", data: contacts });
-				userDataDispatch({ type: "setMessageMetas", data: messageMetas });
+		.then(({ userPrefs, userProfile, contacts, messageMetas }) => {
+			console.log("RETRIEVING USER DATA FROM ENDPOINT");
+			userDataDispatch({ type: "setPrefs", data: userPrefs || {} });
+			userDataDispatch({ type: "setProfile", data: userProfile || {} });
+			userDataDispatch({ type: "setContacts", data: contacts });
+			userDataDispatch({ type: "setMessageMetas", data: messageMetas });
 
-				// Switch to prefs or profile page if accessing root and first-login setup isn't complete yet
-				if (location.pathname === "/") {
-					if (!(userPrefs?.onboardingStageComplete)) navigate('/prefs'); // Start or resume setting up site prefs
-					else if (!(userProfile?.onboardingStageComplete)) navigate('/profile/main'); // Start or resume setting up user profile
-				}
+			// Switch to prefs or profile page if accessing root and first-login setup isn't complete yet
+			if (location.pathname === "/") {
+				if (!(userPrefs?.onboardingStageComplete)) navigate('/prefs'); // Start or resume setting up site prefs
+				else if (!(userProfile?.onboardingStageComplete)) navigate('/profile/main'); // Start or resume setting up user profile
+			}
 
-				changeInitComplete(true);
-			});
+			changeInitComplete(true);
+		});
 	}
 
 	// Get user prefs and profile info straight after login
@@ -150,59 +149,10 @@ export default function App() {
 		}
 		else setError(null);
 	}
+	const [errorMessage, changeErrorMessage] = useState(null); // Modal error message
 
-	const [currentRecipe, changeCurrentRecipe] = useState({
-		title: "Basic Chicken",
-		ingredients: [
-			"1/2 cup butter",
-		],
-		instructions: {},
-		image: "https://spoonacular.com/recipeImages/602638-556x370.jpg",
-		ingredientsImages: [
-			"https://spoonacular.com/cdn/ingredients_100x100/butter-sliced.jpg",
-			"2 cups"
-		],
-		ingredientsValues: [
-			"Flour",
-			"2 ",
-			"cups"
-		],
-	});
-
-	const [recipes, changeRecipes] = useState([]);
-	const [savedRecipes, changeSavedRecipes] = useState([]);
-	const [isRedHeart, changeIsRedHeart] = useState(false);
-
-	const [exercises, changeExercises] = useState([]);
-
-	const [currentPost, changeCurrentPost] = useState({
-		title: "Basic Post",
-		description: "This is a basic post",
-		imageUrl: "https://spoonacular.com/recipeImages/602638-556x370.jpg",
-		date: "2021-04-01",
-		comments: [],
-		likes: 0,
-	});
-
-	const [comments, changeComments] = useState([]);
-	const [likeCounter, changeLikeCounter] = useState(0)
-	const [lolCounter, changeLolCounter] = useState(0)
-	const [commentCounter, changeCommentCounter] = useState(0)
-
-	const [userProfile, changeUserProfile] = useState({})
-
-	const [searchBarValues, changeSearchBarValues] = useState({
-		ingredient: "",
-		amount: "",
-		unit: "",
-	});
-
-	const [currentCustomWorkout, changeCurrentCustomWorkout] = useState();
-	const [savedWorkouts, changeSavedWorkouts] = useState([]);
-
-	const [errorMessage, changeErrorMessage] = useState("");
-
-	const netService = new NetService(commonData.net);
+	const [currentPost, changeCurrentPost] = useState({}); // (Community and PostPage shared state)
+	const [currentCustomWorkout, changeCurrentCustomWorkout] = useState(); // (CustomWorkout, Library, SingleCustomPage shared state)
 
 	// the quotes end-point is not responsive at the moment so this is commented out
 	// const getQuote = async () => {
@@ -216,6 +166,8 @@ export default function App() {
 			<Spinner isActive={slowRequestCounter > 0} />
 
 			<StatusMessage msgData={msgData} setMsgData={setMsgData} />
+
+			<ErrorModal	handleClose={() => changeErrorMessage(null)} errorMessage={errorMessage} />
 
 			{(initComplete) && <NavigationBar logout={logout} userIdentifier={userDataState.profile.userName} />}
 
@@ -232,14 +184,16 @@ export default function App() {
 						} />
 
 						<Route path="/community" element={
-							<Community
-								viewCommon={commonData}
-								changeCurrentPost={changeCurrentPost}
-								userProfile={userProfile}
-								changeUserProfile={changeUserProfile}
-							/>
+							<Community viewCommon={commonData} changeCurrentPost={changeCurrentPost} />
 						} />
-						<Route path="/challenge" element={<Challenge />} />
+
+						<Route path="/postview" element={
+							<PostPage viewCommon={commonData}	currentPost={currentPost}	/>
+						} />
+
+						<Route path="/challenge" element={
+							<Challenge />
+						} />
 
 						<Route path="/myworkout" element={
 							<CustomWorkout viewCommon={commonData}
@@ -248,38 +202,16 @@ export default function App() {
 								changeErrorMessage={changeErrorMessage}
 							/>
 						} />
+
 						<Route path="/library" element={
 							<Library
 								viewCommon={commonData}
-								savedRecipes={savedRecipes}
-								changeSavedRecipes={changeSavedRecipes}
-								currentRecipe={currentRecipe}
-								savedWorkouts={savedWorkouts}
-								changeSavedWorkouts={changeSavedWorkouts}
-								currentCustomWorkout={currentCustomWorkout}
 								changeCurrentCustomWorkout={changeCurrentCustomWorkout}
-							/>
-						} />
-						<Route path="/postview" element={
-							<PostPage
-								viewCommon={commonData}
-								currentPost={currentPost}
-								comments={comments}
-								changeComments={changeComments}
-								likeCounter={likeCounter}
-								changeLikeCounter={changeLikeCounter}
-								lolCounter={lolCounter}
-								changeLolCounter={changeLolCounter}
-								commentCounter={commentCounter}
-								changeCommentCounter={changeCommentCounter}
 							/>
 						} />
 
 						<Route path="/custompage" element={
-							<SingleCustomPage
-								viewCommon={commonData}
-								currentCustomWorkout={currentCustomWorkout}
-							/>
+							<SingleCustomPage	viewCommon={commonData}	currentCustomWorkout={currentCustomWorkout} />
 						} />
 
 						<Route path="/showProfile/:userName" element={
@@ -302,8 +234,7 @@ export default function App() {
 
 						<Route path="/account" element={<>{
 							(initComplete) &&
-							<UserAccountSettings viewCommon={commonData}
-								logout={logout} />
+							<UserAccountSettings viewCommon={commonData} logout={logout} />
 						}</>}
 						/>
 
@@ -328,17 +259,6 @@ export default function App() {
 						<Route path="/recipe" element={<>{
 							(initComplete) &&
 							<Recipes viewCommon={commonData}
-								netService={netService}
-								recipes={recipes}
-								changeRecipes={(recipes) => changeRecipes(recipes)}
-								currentRecipe={currentRecipe}
-								changeCurrentRecipe={(recipe) => changeCurrentRecipe(recipe)}
-								isRedHeart={isRedHeart}
-								changeIsRedHeart={(isRedHeart) => changeIsRedHeart(isRedHeart)}
-								savedRecipes={savedRecipes}
-								changeSavedRecipes={(savedRecipes) => changeSavedRecipes(savedRecipes)}
-								searchBarValues={searchBarValues}
-								changeSearchBarValues={changeSearchBarValues}
 								errorMessage={errorMessage}
 								changeErrorMessage={changeErrorMessage}
 							/>
@@ -347,11 +267,8 @@ export default function App() {
 
 						<Route path="/exc" element={<>{
 							(initComplete) &&
-							<Exercises viewCommon={commonData}
-								exercises={exercises}
-								changeExercises={(exercises) => changeExercises(exercises)}
-							/>
-						}</>}
+							<SingleWorkoutCard viewCommon={commonData} />
+							}</>}
 						/>
 
 						<Route path="/" element={<>{

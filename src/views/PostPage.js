@@ -10,23 +10,26 @@ import { formatTime, formatMonth } from '../utils/utils'
 import { getProfileImageUrl } from '../utils/image'
 
 function PostPage(props) {
+		const [comments, changeComments] = useState([]);
+		const [likeCounter, changeLikeCounter] = useState(0)
+		const [lolCounter, changeLolCounter] = useState(0)
+		const [commentCounter, changeCommentCounter] = useState(0)
 
     const url = getProfileImageUrl(props.currentPost.profileImg)
 
     const updateLikes = async () => {
         const likes = await communityService.getLikesCount(props.currentPost._id)
-        props.changeLikeCounter(likes)
-
+        changeLikeCounter(likes)
     }
 
     const updateLols = async () => {
         const lols = await communityService.getLolsCount(props.currentPost._id)
-        props.changeLolCounter(lols)
+        changeLolCounter(lols)
     }
 
     const updateComments = async () => {
         const comments = await communityService.getCommentCount(props.currentPost._id)
-        props.changeCommentCounter(comments)
+        changeCommentCounter(comments)
     }
 
     useEffect(() => {
@@ -57,7 +60,7 @@ function PostPage(props) {
     useEffect(() => {
         communityService.getCommentsForPost(props.currentPost._id)
             .then(data => {
-                props.changeComments(data)
+                changeComments(data)
             })
             .catch(error => {
                 console.log(error)
@@ -76,7 +79,7 @@ function PostPage(props) {
         try {
             const commentId = await communityService.addCommentToPost(props.currentPost._id, { text });
             const comment = await getComment(commentId)
-            props.changeComments([...props.comments, comment]);
+            changeComments([...comments, comment]);
             updateComments()
         } catch (error) {
             console.log(error)
@@ -84,7 +87,7 @@ function PostPage(props) {
     }
 
     const showComments = () => {
-        return props.comments?.map((comment) =>
+        return comments?.map((comment) =>
             <SingleComment
                 key={comment._id}
                 comment={comment}
@@ -112,11 +115,11 @@ function PostPage(props) {
                             </Card.Text>
                             <div className='post-page-icons'>
                                 <Heart onClick={likePost} className='heart' />
-                                <span>{props.likeCounter} </span><span> </span>
+                                <span>{likeCounter} </span><span> </span>
                                 <LolFace onClick={lolPost} className='lol' />
-                                <span className='lol'>{props.lolCounter} </span><span> </span>
+                                <span className='lol'>{lolCounter} </span><span> </span>
                                 <Comments />
-                                <span>{props.commentCounter} </span><span> </span>
+                                <span>{commentCounter} </span><span> </span>
                             </div>
                         </Card.Body>
                         <div className='add-comment'>

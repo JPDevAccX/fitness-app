@@ -4,13 +4,14 @@ import { Modal, Row, Col } from 'react-bootstrap'
 function RecipeModal(props) {
 
   const handleClickedIngredient = (index) => {
-    props.changeSearchBarValues({
-      ingredient: props.currentRecipe.ingredientsValues[index][0],
-      amount: props.currentRecipe.ingredientsValues[index][1],
-      unit: props.currentRecipe.ingredientsValues[index][2],
-    })
+    if (props.changeSearchBarValues) {
+			props.changeSearchBarValues({
+				ingredient: props.currentRecipe.ingredientsValues[index][0],
+				amount: props.currentRecipe.ingredientsValues[index][1],
+				unit: props.currentRecipe.ingredientsValues[index][2],
+    	}) ;
+		}
   }
-
 
   return (
     <>

@@ -12,10 +12,9 @@ import ProfileModal from '../components/ProfileModal'
 import MessageService from '../services/messageService'
 
 function Community(props) {
-
     const [posts, changePosts] = useState([])
     const [user, changeUser] = useState()
-
+		const [userProfile, changeUserProfile] = useState({})
     const [lgShow, setLgShow] = useState(false);
 
     const communityService = new CommunityService(props.viewCommon.net);
@@ -33,9 +32,6 @@ function Community(props) {
     }, [])
 
     const [show, setShow] = useState(false);
-
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
 
     const addPostHandler = () => {
         setShow(true)
@@ -102,7 +98,7 @@ function Community(props) {
                         onHide={() => setLgShow(false)}
                         aria-labelledby="example-modal-sizes-title-lg"
                         viewCommon={props.viewCommon}
-                        userProfile={props.userProfile}
+                        userProfile={userProfile}
                     />
                     <AddPostModal
                         show={show}
@@ -118,14 +114,8 @@ function Community(props) {
                             viewCommon={props.viewCommon}
                             posts={posts}
                             changeCurrentPost={props.changeCurrentPost}
-                            counters={props.counters}
-                            changeCounters={props.changeCounters}
-                            updateLikes={props.updateLikes}
-                            updateLols={props.updateLols}
-                            updateComments={props.updateComments}
-                            userProfile={props.userProfile}
-                            changeUserProfile={props.changeUserProfile}
-                            showProfile={showProfile}
+                            userProfile={userProfile}
+                            changeUserProfile={changeUserProfile}
                         />
                     </div>
                 </Col>
