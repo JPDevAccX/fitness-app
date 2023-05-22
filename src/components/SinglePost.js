@@ -1,8 +1,8 @@
 import './css/communityPosts.scss'
 import { Card, Button } from 'react-bootstrap'
-import { ReactComponent as Heart } from "./Images/redheart.svg"
-import { ReactComponent as Comments } from "./Images/comments.svg"
-import { ReactComponent as LolFace } from "./Images/lol2.svg"
+import { ReactComponent as Heart } from "../images/redheart.svg"
+import { ReactComponent as Comments } from "../images/comments.svg"
+import { ReactComponent as LolFace } from "../images/lol2.svg"
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'
 import ProfileModal from './ProfileModal';

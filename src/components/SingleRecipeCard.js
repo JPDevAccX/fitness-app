@@ -5,8 +5,8 @@ import { useState, useEffect } from 'react';
 
 import RecipeModal from './RecipeModal';
 import FoodAPIClient from "../services/API/foodApiService";
-import { ReactComponent as Heart } from "./Images/heart.svg"
-import { ReactComponent as Redheart } from "./Images/redheart.svg"
+import { ReactComponent as Heart } from "../images/heart.svg"
+import { ReactComponent as Redheart } from "../images/redheart.svg"
 
 
 function SingleRecipeCard(props) {
@@ -23,15 +23,14 @@ function SingleRecipeCard(props) {
         checkIfRecipeIsSaved()
     }, [])
 
-    const changeUserRecipes = async (recipe) => {
+    const changeUserRecipes = async () => {
         const data = await foodAPIClient.getUserRecipes()
-        props.changeSavedRecipes(data)
-        return data
+        if (props.changeSavedRecipes) props.changeSavedRecipes(data)
     }
 
     const [lgShow, setLgShow] = useState(false);
 
-    function handleClickedRecipe() {
+    async function handleClickedRecipe() {
 
         heartIsRed ? setHeartIsRed(false) : setHeartIsRed(true)
 
@@ -40,7 +39,7 @@ function SingleRecipeCard(props) {
             id: props.id,
             imgUrl: props.imgUrl
         }
-        saveRecipeToDatabase(recipeParams)
+        await saveRecipeToDatabase(recipeParams)
         changeUserRecipes()
     }
 
@@ -70,7 +69,7 @@ function SingleRecipeCard(props) {
     }
 
     async function saveRecipeToDatabase(params) {
-        foodAPIClient.addRecipe({
+        await foodAPIClient.addRecipe({
             title: params.title,
             id: params.id,
             imageUrl: params.imgUrl

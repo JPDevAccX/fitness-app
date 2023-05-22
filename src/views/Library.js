@@ -11,34 +11,37 @@ function Library(props) {
 
     const navigate = useNavigate();
 
-
     const foodAPIClient = new FoodAPIClient(props.viewCommon.net);
     const exerciseAPIClient = new ExerciseAPIClient(props.viewCommon.net);
 
-    // const [savedWorkouts, changeSavedWorkouts] = useState([]);
+		const [savedRecipes, changeSavedRecipes] = useState([]);
+		const [currentRecipe, changeCurrentRecipe] = useState(null) ;
+    const [savedWorkouts, changeSavedWorkouts] = useState([]);
 
     useEffect(() => {
         const getUserRecipes = async () => {
             const data = await foodAPIClient.getUserRecipes()
-            props.changeSavedRecipes(data)
+            changeSavedRecipes(data)
         }
         const getUserWorkouts = async () => {
             const workouts = await exerciseAPIClient.getCustomWorkoutForUser()
-            props.changeSavedWorkouts([...workouts])
+            changeSavedWorkouts([...workouts])
         }
         getUserRecipes()
         getUserWorkouts()
     }, [])
 
     const showRecipes = () => {
-        return props.savedRecipes?.map((recipe) =>
+        return savedRecipes?.map((recipe) =>
             <SingleRecipeCard
                 key={recipe._id}
                 title={recipe.title}
                 id={recipe.id}
                 imgUrl={recipe.imageUrl}
                 viewCommon={props.viewCommon}
-                currentRecipe={props.currentRecipe}
+                currentRecipe={currentRecipe}
+								changeCurrentRecipe={changeCurrentRecipe}
+								changeSavedRecipes={changeSavedRecipes}
             />
         )
     }
@@ -49,7 +52,7 @@ function Library(props) {
     }
 
     const showWorkouts = () => {
-        return props.savedWorkouts?.map((workout, index) =>
+        return savedWorkouts?.map((workout, index) =>
             <Card key={index} onClick={() => showWorkoutPage(workout)} className='recipe-card' style={{ width: '18rem' }}>
                 <Card.Img variant="top" src={workout.image} />
                 <Card.Body>

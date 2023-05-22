@@ -4,7 +4,6 @@ import ExerciseAPIClient from '../services/API/exerciseApiService'
 import UnsplashAPIClient from '../services/API/unsplashApiService'
 import { useState, useEffect } from 'react'
 import { Button, Col, Form, Row, Card } from 'react-bootstrap'
-import ErrorModal from '../components/ErrorModal'
 
 function CustomWorkout(props) {
 
@@ -24,11 +23,6 @@ function CustomWorkout(props) {
         exerciseName: '',
         reps: ''
     })
-
-    const [show, setShow] = useState(false);
-
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
 
     useEffect(() => {
         const getWorkouts = async () => {
@@ -92,15 +86,12 @@ function CustomWorkout(props) {
 
         if (event.target[0].value === '' || event.target[1].value === '') {
             props.changeErrorMessage('Please fill in all the fields')
-            handleShow()
             return
         } else if (isNaN(event.target[1].value)) {
             props.changeErrorMessage('Please enter a number for reps')
-            handleShow()
             return
         } else if (event.target[1].value.length > 3) {
             props.changeErrorMessage('Please enter a number less than 1000')
-            handleShow()
             return
         }
         const newExercise = [event.target[0].value, event.target[1].value + ' reps', currentExercise.gif]
@@ -109,7 +100,7 @@ function CustomWorkout(props) {
 
     const addWorkoutToDatabase = async (workout) => {
         try {
-            const response = await exerciseAPIClient.addCustomWorkout(workout)
+            await exerciseAPIClient.addCustomWorkout(workout)
         }
         catch (err) {
             console.log(err)
@@ -141,23 +132,18 @@ function CustomWorkout(props) {
 
         if (customWorkout.title === '' || customWorkout.sets === '') {
             props.changeErrorMessage('Please fill in all the fields')
-            handleShow()
             return
         } else if (isNaN(customWorkout.sets)) {
             props.changeErrorMessage('Please enter a number for sets')
-            handleShow()
             return
         } else if (customWorkout.exercises.length > 10) {
             props.changeErrorMessage('Please add less than 10 exercises')
-            handleShow()
             return
         } else if (customWorkout.exercises.length === 0) {
             props.changeErrorMessage('Please add at least 1 exercise')
-            handleShow()
             return
         } else if (customWorkout.sets.length > 3) {
             props.changeErrorMessage('Please enter a number less than 1000')
-            handleShow()
             return
         }
 
@@ -233,12 +219,6 @@ function CustomWorkout(props) {
                     </Col>
                 </Col>
             </Row>
-            <ErrorModal
-                show={show}
-                handleClose={handleClose}
-                handleShow={handleShow}
-                errorMessage={props.errorMessage}
-            />
         </>
     )
 }

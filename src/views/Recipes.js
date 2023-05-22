@@ -4,12 +4,21 @@ import FoodAPIClient from "../services/API/foodApiService"
 import { Button, Col, Row, Form } from 'react-bootstrap'
 import { useEffect, useState } from 'react'
 import NutritionModal from '../components/NutritionModal'
-import ErrorModal from "../components/ErrorModal"
 
 function Recipes(props) {
 
     const foodAPIClient = new FoodAPIClient(props.viewCommon.net);
 
+		const [isRedHeart, changeIsRedHeart] = useState(false);
+
+		const [searchBarValues, changeSearchBarValues] = useState({
+			ingredient: "",
+			amount: "",
+			unit: "",
+		});
+
+		const [recipes, changeRecipes] = useState([]);
+		const [currentRecipe, changeCurrentRecipe] = useState(null) ;
     const [lgShow, setLgShow] = useState(false);
 
     const [nutrition, changeNutrition] = useState([{
@@ -29,23 +38,22 @@ function Recipes(props) {
 
         if (data.results.length === 0) {
             props.changeErrorMessage("No recipes found")
-            handleShow()
             return
         }
-        return props.changeRecipes(data.results)
+        return changeRecipes(data.results)
     }
 
     useEffect(() => {
-        props.netService.get('allrecipes')
+        foodAPIClient.getAllRecipes()
             .then(data => {
-                props.changeRecipes(data)
+                changeRecipes(data)
             })
             .catch(error => {
                 console.log(error)
             })
     }, [])
 
-    const showRecipes = props.recipes.map((recipe) => {
+    const showRecipes = recipes.map((recipe) => {
         // THE MOST CLEVER LINE OF CODE I HAVE EVER WRITTEN  // DIFFERENT API'S HAVE DIFFERENT KEY NAMES FOR THE SAME THING // 
         if (!recipe.image) { recipe.image = recipe.imageUrl }
         return (
@@ -55,15 +63,13 @@ function Recipes(props) {
                 id={recipe.id}
                 imgUrl={recipe.image}
                 viewCommon={props.viewCommon}
-                currentRecipe={props.currentRecipe}
-                changeCurrentRecipe={(currentRecipe) => props.changeCurrentRecipe(currentRecipe)}
-                saveRecipeToDatabase={(params) => saveRecipeToDatabase(params)}
-                isRedHeart={props.isRedHeart}
-                changeIsRedHeart={(isRedHeart) => props.changeIsRedHeart(isRedHeart)}
-                savedRecipes={props.savedRecipes}
-                changeSavedRecipes={(savedRecipes) => props.changeSavedRecipes(savedRecipes)}
-                searchBarValues={props.searchBarValues}
-                changeSearchBarValues={props.changeSearchBarValues}
+                currentRecipe={currentRecipe}
+                changeCurrentRecipe={changeCurrentRecipe}
+                saveRecipeToDatabase={saveRecipeToDatabase}
+                isRedHeart={isRedHeart}
+                changeIsRedHeart={changeIsRedHeart}
+                searchBarValues={searchBarValues}
+                changeSearchBarValues={changeSearchBarValues}
             />
         )
     })
@@ -82,7 +88,6 @@ function Recipes(props) {
         const data = event.target[0].value;
         if (data === "") {
             props.changeErrorMessage("Please enter name of recipe")
-            handleShow()
             return
         }
         try {
@@ -102,7 +107,7 @@ function Recipes(props) {
         return data.results[0].id
     }
 
-    async function sunbmitHandlerNutrition(event) {
+    async function submitHandlerNutrition(event) {
         event.preventDefault();
 
         const data = event.target[0].value;
@@ -110,7 +115,6 @@ function Recipes(props) {
 
         if (data === "") {
             props.changeErrorMessage("Please enter name of ingredient")
-            handleShow();
             return
         }
 
@@ -119,11 +123,9 @@ function Recipes(props) {
 
         if (id === "Ingredient not found") {
             props.changeErrorMessage("Ingredient not found")
-            handleShow();
             return
         } else if (amount === "" || isNaN(amount)) {
             props.changeErrorMessage("Please enter a valid amount")
-            handleShow();
             return
         }
         try {
@@ -137,11 +139,6 @@ function Recipes(props) {
             setLgShow(true);
         } catch (error) { console.log(error) }
     }
-
-    const [show, setShow] = useState(false);
-
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
 
     return (
         <>
@@ -157,27 +154,21 @@ function Recipes(props) {
                     <br />
                     <br />
                     <br />
-                    <Form onSubmit={sunbmitHandlerNutrition}>
+                    <Form onSubmit={submitHandlerNutrition}>
                         <Form.Group >
-                            <Form.Control defaultValue={props.searchBarValues.ingredient} id="name" type="text" placeholder="Enter ingredient name" />
+                            <Form.Control defaultValue={searchBarValues.ingredient} id="name" type="text" placeholder="Enter ingredient name" />
                         </Form.Group>
                         <br />
                         <Form.Group >
-                            <Form.Control defaultValue={props.searchBarValues.amount} id="amount" type="text" placeholder="Enter amount" />
+                            <Form.Control defaultValue={searchBarValues.amount} id="amount" type="text" placeholder="Enter amount" />
                         </Form.Group>
                         <br />
                         <Form.Group >
-                            <Form.Control defaultValue={props.searchBarValues.unit} id="unit" type="text" placeholder="Enter weight unit" />
+                            <Form.Control defaultValue={searchBarValues.unit} id="unit" type="text" placeholder="Enter weight unit" />
                         </Form.Group>
                         <br />
                         <Button className="btn-orange" variant="primary" type="submit">Fetch nutrition!</Button>
                     </Form>
-                    <ErrorModal
-                        show={show}
-                        handleClose={handleClose}
-                        handleShow={handleShow}
-                        errorMessage={props.errorMessage}
-                    />
                     <NutritionModal
                         ingredient={ingredient}
                         nutrition={nutrition}

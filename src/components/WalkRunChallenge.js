@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
-import runImage from "./Images/run.jpg";
+import runImage from "../images/run.jpg";
 
 function WalkRunChallenge() {
   const [distance, setDistance] = useState(3);

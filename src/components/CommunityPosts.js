@@ -8,17 +8,11 @@ function CommunityPosts(props) {
         return props.posts?.map((post) =>
             <SinglePost
                 key={post._id}
+								viewCommon={props.viewCommon}
                 post={post}
                 changeCurrentPost={props.changeCurrentPost}
-                counters={props.counters}
-                changeCounters={props.changeCounters}
-                viewCommon={props.viewCommon}
-                updateLikes={props.updateLikes}
-                updateLols={props.updateLols}
-                updateComments={props.updateComments}
                 userProfile={props.userProfile}
                 changeUserProfile={props.changeUserProfile}
-                showProfile={props.showProfile}
             />
         )
     }
