@@ -2,18 +2,16 @@
 import '../css/userProfile.scss' ;
 
 // React and other packages
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import { useNavigate } from "react-router-dom";
 
 // React-bootstrap components
-import Form from "react-bootstrap/Form"
-import Button from "react-bootstrap/Button"
-import Col from 'react-bootstrap/Col';
-import Row from 'react-bootstrap/Row';
+import { Form, Button, Col, Row, Table } from 'react-bootstrap';
 
 // Network services
 import UserProfileService from "../../services/userProfileService";
+import UserValuesHistoryService from '../../services/userValuesHistoryService';
 
 // Our components
 import ProfileImageUpload from './components/ProfileImageUpload';
@@ -65,6 +63,8 @@ export const defaults = {
 
 export default function UserProfile({nextPage, viewCommon}) {
 	const userProfileService = new UserProfileService(viewCommon.net);
+	const userValuesHistoryService = new UserValuesHistoryService(viewCommon.net);
+
 	const navigate = useNavigate();
 	let { section } = useParams();
 
@@ -81,6 +81,16 @@ export default function UserProfile({nextPage, viewCommon}) {
 	const [ userState, dispatch ] = React.useContext(UserContext) ;
 	const formValues = userState.profile ;
 	const prefs = userState.prefs ;
+
+	// History data
+	const [ historyValues, changeHistoryValues ] = useState([]) ;
+	useEffect(() => {
+		if (section === 'history') {
+			userValuesHistoryService.getAllHistory().then(({data}) => {
+				changeHistoryValues(data.historyValues) ;
+			}) ;
+		}
+	}, [section]) ;
 
 	// === STATUS HANDLING ===
 	// Error-status for fields
@@ -113,6 +123,21 @@ export default function UserProfile({nextPage, viewCommon}) {
 
 		userProfileService.updateFieldValue(fieldName, newValue) ;
 		dispatch({type: 'setProfile', data: newFormValues});
+  }
+
+	// Handle history table user-input
+  const handleHistoryChange = (changeData) => {		
+		const [fieldId, newValue] = changeData ;
+		const [fieldName, fieldIndex] = fieldId.split('/') ;
+		const fieldDate = historyValues[fieldIndex].dateOnly ;
+
+		const newHistoryValues = [...historyValues] ;
+		newHistoryValues[fieldIndex][fieldName] = newValue;
+
+		userValuesHistoryService.setHistoryFieldValue(fieldDate, fieldName, newValue).then(({data}) => {
+			if (data.profileUpdated) dispatch({type: 'setProfile', data: {...formValues, [fieldName]: newValue}});
+		}) ;
+		changeHistoryValues(newHistoryValues) ;
   }
 
 	// Handle next-page action
@@ -226,6 +251,10 @@ export default function UserProfile({nextPage, viewCommon}) {
 				<div className="user-profile-tab-link">
 					<img onClick={() => navigate('/profile/goals')} src="images/target.png" alt="goals section" />
 					<div className="text-center">Goals</div>
+				</div>
+				<div className="user-profile-tab-link">
+				<img onClick={() => navigate('/profile/history')} src="images/sheet.png" alt="history section" />
+					<div className="text-center">History</div>
 				</div>
 			</div>
 			
@@ -351,6 +380,36 @@ export default function UserProfile({nextPage, viewCommon}) {
 						/>}
 					</div>
 				</fieldset>}
+			</fieldset>}
+
+			{(section === 'history') &&
+			<fieldset className="user-profile d-flex flex-column gap-4 border p-3">
+				<legend className="float-none w-auto">History</legend>
+				<Table bordered>
+					<thead>
+						<tr>
+							<th>Date</th>
+							<th>Weight ({prefs.weightUnits})</th>
+							<th>Height ({prefs.heightUnits})</th>
+						</tr>
+					</thead>
+					<tbody>
+						{historyValues.map(({dateOnly, weight, height}, i) =>
+							<tr key={dateOnly}>
+								<td>{dateOnly.substring(5)}</td>
+								<td>
+									<UnitsInput unitType="Weight" metricValue={weight} setErrorStatus={(u, v) => statusLib.setErrorStatus(u, v)}
+										currentUnit={prefs.weightUnits} onValueChange = {(metricVal) => handleHistoryChange(['weight/' + i, metricVal])}
+										className={statusLib.isSpecificError('Weight/' + i) ? 'is-invalid' : ''} conversionFunc = {convertWeight} />
+								</td>
+								<td>
+									<UnitsInput unitType="Height" metricValue={height} setErrorStatus={(u, v) => statusLib.setErrorStatus(u, v)}
+										currentUnit={prefs.heightUnits} onValueChange = {(metricVal) => handleHistoryChange(['height/' + i, metricVal])}
+										className={statusLib.isSpecificError('Height/' + i) ? 'is-invalid' : ''} conversionFunc = {convertHeight} />
+								</td>
+							</tr>)}
+					</tbody>
+				</Table>
 			</fieldset>}
 				
 			{actualNextPage &&

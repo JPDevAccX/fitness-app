@@ -36,7 +36,7 @@ export default function UnitsInput({
 			input2Value = '' ;
 		}
 		else {
-			[input1Value, input2Value] = conversionFunc([metricValue], unitOpts[0].value, currentUnit) ;
+			[input1Value, input2Value] = conversionFunc([metricValue], 'metric', currentUnit) ;
 			if (currentUnit.split(' ').length === 1) input1Value = roundValue(input1Value, 1) ;
 			else input2Value = roundValue(input2Value, 1) ;
 		}
@@ -47,7 +47,7 @@ export default function UnitsInput({
 			[selectId]: currentUnit,
 			metricValue
 		}) ;
-	}, []) ;
+	}, [metricValue]) ;
 
 	// Handle form field user-input
   const handleChange = (e) => {
@@ -64,7 +64,7 @@ export default function UnitsInput({
 				input2Value = '' ;
 			}
 			else {
-				[input1Value, input2Value] = conversionFunc([formValues.metricValue], unitOpts[0].value, e.target.value) ;
+				[input1Value, input2Value] = conversionFunc([formValues.metricValue], 'metric', e.target.value) ;
 				if (newValue.split(' ').length === 1) input1Value = roundValue(input1Value, 1) ;
 				else input2Value = roundValue(input2Value, 1) ;
 			}
@@ -85,7 +85,7 @@ export default function UnitsInput({
 
 			// Re-calculate metric value
 			if (isValid) {
-				const metricValue = conversionFunc([newFormValues[input1Id], newFormValues[input2Id]], newFormValues[selectId], unitOpts[0].value)[0] ;
+				const metricValue = conversionFunc([newFormValues[input1Id], newFormValues[input2Id]], newFormValues[selectId], 'metric')[0] ;
 				onValueChange(metricValue || "") ;
 				newFormValues.metricValue = metricValue ;
 			}

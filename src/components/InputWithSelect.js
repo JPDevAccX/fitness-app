@@ -25,9 +25,9 @@ export default function InputWithSelect({
   return (
 			<div className="d-flex gap-1">
 				<Form.Control name={inputName || inputId} id={inputId} value={inputValue} onChange={inputOnChange} placeholder={inputPlaceholder} disabled={disabled} className={className}/>
-				<Form.Select name={selectName || selectId} id={selectId} value={selectValue} onChange={selectOnChange} disabled={disabled} >
+				{opts && <Form.Select name={selectName || selectId} id={selectId} value={selectValue} onChange={selectOnChange} disabled={disabled} >
 					{buildOptions(opts)}
-				</Form.Select>
+				</Form.Select>}
 			</div>
   );
 }
