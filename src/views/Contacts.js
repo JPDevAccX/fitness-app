@@ -35,7 +35,7 @@ export default function Contacts({viewCommon}) {
 
 	// === Retrieve contacts ===
 	function getContacts(isAuto = false) {
-		contactService.retrieveContacts(isAuto).then(({data: contacts}) => {
+		contactService.retrieveContacts(isAuto).then((contacts) => {
 			userDataDispatch({ type: "setContacts", data: contacts});
 		}) ;
 	}

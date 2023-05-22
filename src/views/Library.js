@@ -19,12 +19,11 @@ function Library(props) {
 
     useEffect(() => {
         const getUserRecipes = async () => {
-            const response = await foodAPIClient.getUserRecipes()
-            props.changeSavedRecipes(response.data)
+            const data = await foodAPIClient.getUserRecipes()
+            props.changeSavedRecipes(data)
         }
         const getUserWorkouts = async () => {
-            const response = await exerciseAPIClient.getCustomWorkoutForUser()
-            const workouts = await response.data
+            const workouts = await exerciseAPIClient.getCustomWorkoutForUser()
             props.changeSavedWorkouts([...workouts])
         }
         getUserRecipes()

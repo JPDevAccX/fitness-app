@@ -26,7 +26,7 @@ function Login(props) {
         userService.login(event.target.username.value, event.target.password.value)
             .then((response) => {
                 changeDisabled(false);
-                props.login(response.data.token);
+                props.login(response.token);
                 navigate('/')
             })
             .catch((err) => {

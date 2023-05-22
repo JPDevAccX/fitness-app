@@ -7,16 +7,14 @@ export default function AddPostModal(props) {
     const communityService = new CommunityService(props.viewCommon.net)
 
     const getPost = async (postId) => {
-        const response = await communityService.getPostById(postId);
-        return response.data;
+        return await communityService.getPostById(postId);
     }
 
     const addCommunityPost = async (data) => {
 
         try {
 
-            const response = await communityService.addCommunityPost(data)
-            const postId = response.data
+            const postId = await communityService.addCommunityPost(data)
             const post = await getPost(postId)
             props.changePosts([...props.posts, post])
         } catch (error) {

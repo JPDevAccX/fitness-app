@@ -5,9 +5,9 @@ import ExerciseAPIClient from "../services/API/exerciseApiService";
 function Exercises(props) {
   const exerciseAPIClient = new ExerciseAPIClient(props.viewCommon.net);
   async function getWorkout(bodypart) {
-    const response = await exerciseAPIClient.getExercise(bodypart);
+    const data = await exerciseAPIClient.getExercise(bodypart);
 
-    return props.changeExercises(response.data.results);
+    return props.changeExercises(data.results);
   }
   const showExercises = props.exercises.map((exercise) => {
     return (

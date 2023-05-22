@@ -60,7 +60,7 @@ export default class NetService {
 		const axiosData = (data === null) ? {method, url, headers} : {method, url, data, headers} ;
 		return axios(axiosData).then((response) => {
 			if (!opts.noErrorClear) this.errClearInternal() ;
-			return response ;
+			return response.data ;
 		})
 		.catch((err) => this.errHandlerInternal(err))
 		.finally(() => {

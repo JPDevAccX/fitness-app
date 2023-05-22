@@ -16,8 +16,8 @@ function SingleWorkoutCard(props) {
 
   useEffect(() => {
     async function getBodyparts() {
-      const response = await exerciseAPIClient.getBodyparts();
-      setBodyparts(response.data || []);
+      const data = await exerciseAPIClient.getBodyparts();
+      setBodyparts(data || []);
     }
     getBodyparts();
   }, []);
@@ -27,9 +27,9 @@ function SingleWorkoutCard(props) {
   }, [worksoutsForBodyPart]);
 
   const handleCardClick = async (bp) => {
-    const response = await exerciseAPIClient.getExercise(bp);
+    const data = await exerciseAPIClient.getExercise(bp);
 
-    setWorksoutsForBodyPart(response.data);
+    setWorksoutsForBodyPart(data);
   };
 
   const handleLoadMore = () => {

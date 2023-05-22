@@ -20,7 +20,7 @@ export default function ShowProfile({viewCommon}) {
 	const userProfileService = new UserProfileService(viewCommon.net) ;
 
 	useEffect(() => {
-		userProfileService.getProfile(userName).then(({data}) => {
+		userProfileService.getProfile(userName).then((data) => {
 			changeUserProfile(data) ;
 			changeIsActive(true) ;
 		}) ;

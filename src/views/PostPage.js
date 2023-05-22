@@ -14,21 +14,18 @@ function PostPage(props) {
     const url = getProfileImageUrl(props.currentPost.profileImg)
 
     const updateLikes = async () => {
-        const response = await communityService.getLikesCount(props.currentPost._id)
-        const likes = await response.data
+        const likes = await communityService.getLikesCount(props.currentPost._id)
         props.changeLikeCounter(likes)
 
     }
 
     const updateLols = async () => {
-        const response = await communityService.getLolsCount(props.currentPost._id)
-        const lols = await response.data
+        const lols = await communityService.getLolsCount(props.currentPost._id)
         props.changeLolCounter(lols)
     }
 
     const updateComments = async () => {
-        const response = await communityService.getCommentCount(props.currentPost._id)
-        const comments = await response.data
+        const comments = await communityService.getCommentCount(props.currentPost._id)
         props.changeCommentCounter(comments)
     }
 
@@ -44,19 +41,13 @@ function PostPage(props) {
     }, [])
 
     const likePost = async () => {
-        const response = await communityService.addLikeToPost(props.currentPost._id)
-
-        if (response.status === 200) {
-            updateLikes()
-        }
+        await communityService.addLikeToPost(props.currentPost._id)
+				updateLikes()
     }
 
     const lolPost = async () => {
-        const response = await communityService.addLolToPost(props.currentPost._id)
-
-        if (response.status === 200) {
-            updateLols()
-        }
+        await communityService.addLolToPost(props.currentPost._id)
+        updateLols()
     }
 
     const communityService = new CommunityService(props.viewCommon.net)
@@ -65,8 +56,8 @@ function PostPage(props) {
 
     useEffect(() => {
         communityService.getCommentsForPost(props.currentPost._id)
-            .then(response => {
-                props.changeComments(response.data)
+            .then(data => {
+                props.changeComments(data)
             })
             .catch(error => {
                 console.log(error)
@@ -74,8 +65,7 @@ function PostPage(props) {
     }, [])
 
     const getComment = async (commentId) => {
-        const response = await communityService.getCommentById(commentId);
-        return response.data;
+        return await communityService.getCommentById(commentId);
     }
 
     const addCommentHandler = async () => {
@@ -84,8 +74,7 @@ function PostPage(props) {
         setInputValue('')
 
         try {
-            const response = await communityService.addCommentToPost(props.currentPost._id, { text });
-            const commentId = response.data;
+            const commentId = await communityService.addCommentToPost(props.currentPost._id, { text });
             const comment = await getComment(commentId)
             props.changeComments([...props.comments, comment]);
             updateComments()

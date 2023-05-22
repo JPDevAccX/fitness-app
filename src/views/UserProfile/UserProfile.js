@@ -86,7 +86,7 @@ export default function UserProfile({nextPage, viewCommon}) {
 	const [ historyValues, changeHistoryValues ] = useState([]) ;
 	useEffect(() => {
 		if (section === 'history') {
-			userValuesHistoryService.getAllHistory().then(({data}) => {
+			userValuesHistoryService.getAllHistory().then((data) => {
 				changeHistoryValues(data.historyValues) ;
 			}) ;
 		}
@@ -134,7 +134,7 @@ export default function UserProfile({nextPage, viewCommon}) {
 		const newHistoryValues = [...historyValues] ;
 		newHistoryValues[fieldIndex][fieldName] = newValue;
 
-		userValuesHistoryService.setHistoryFieldValue(fieldDate, fieldName, newValue).then(({data}) => {
+		userValuesHistoryService.setHistoryFieldValue(fieldDate, fieldName, newValue).then((data) => {
 			if (data.profileUpdated) dispatch({type: 'setProfile', data: {...formValues, [fieldName]: newValue}});
 		}) ;
 		changeHistoryValues(newHistoryValues) ;
@@ -152,7 +152,7 @@ export default function UserProfile({nextPage, viewCommon}) {
 			var reader = new FileReader();
 			reader.readAsDataURL(file);
 			reader.onload = function(e) {
-				userProfileService.updateImage('profile', e.target.result).then(({data: {url}}) => {
+				userProfileService.updateImage('profile', e.target.result).then(({url}) => {
 					const newFormValues = {...formValues} ;
 					newFormValues.imageUrl = url ;
 					dispatch({type: 'setProfile', data: newFormValues});

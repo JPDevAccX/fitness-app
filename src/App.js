@@ -82,7 +82,7 @@ export default function App() {
 	function getUserData() {
 		const userDataService = new UserDataService(commonData.net);
 		userDataService.retrieve()
-			.then(({ data: { userPrefs, userProfile, contacts, messageMetas } }) => {
+			.then(({ userPrefs, userProfile, contacts, messageMetas }) => {
 				console.log("RETRIEVING USER DATA FROM ENDPOINT");
 				userDataDispatch({ type: "setPrefs", data: userPrefs || {} });
 				userDataDispatch({ type: "setProfile", data: userProfile || {} });
@@ -108,7 +108,7 @@ export default function App() {
 	function getNotifications(isAuto = false) {
 		const notificationService = new NotificationService(commonData.net);
 
-		notificationService.retrieve(isAuto).then(({ data }) => {
+		notificationService.retrieve(isAuto).then((data) => {
 			userDataDispatch({ type: "setNotifications", data });
 		});
 	}
@@ -206,8 +206,7 @@ export default function App() {
 
 	// the quotes end-point is not responsive at the moment so this is commented out
 	// const getQuote = async () => {
-	// 	const response = await netService.post('quote');
-	// 	const data = await response.data;
+	// 	const data = await netService.post('quote');
 	// 	console.log(data);
 	// }
 

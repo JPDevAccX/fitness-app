@@ -17,16 +17,16 @@ function SingleRecipeCard(props) {
 
     useEffect(() => {
         const checkIfRecipeIsSaved = async () => {
-            const response = await foodAPIClient.checkRecipe(props.id)
-            setHeartIsRed(response.data)
+            const data = await foodAPIClient.checkRecipe(props.id)
+            setHeartIsRed(data)
         }
         checkIfRecipeIsSaved()
     }, [])
 
     const changeUserRecipes = async (recipe) => {
-        const response = await foodAPIClient.getUserRecipes()
-        props.changeSavedRecipes(response.data)
-        return response.data
+        const data = await foodAPIClient.getUserRecipes()
+        props.changeSavedRecipes(data)
+        return data
     }
 
     const [lgShow, setLgShow] = useState(false);
@@ -45,8 +45,7 @@ function SingleRecipeCard(props) {
     }
 
     async function handleCardClick() {
-        const response = await foodAPIClient.getFullRecipe(props.id)
-        const recipeInfo = response.data
+        const recipeInfo = await foodAPIClient.getFullRecipe(props.id)
         const ingredientsList = recipeInfo.extendedIngredients.map((ingredient) => {
             return ingredient.original
         })

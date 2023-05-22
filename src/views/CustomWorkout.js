@@ -32,8 +32,7 @@ function CustomWorkout(props) {
 
     useEffect(() => {
         const getWorkouts = async () => {
-            const response = await exerciseAPIClient.getCustomWorkouts()
-            const data = await response.data
+            const data = await exerciseAPIClient.getCustomWorkouts()
             changeCustomWorkouts([...data])
         }
         getWorkouts()
@@ -83,8 +82,7 @@ function CustomWorkout(props) {
     const getExercises = async (event) => {
         event.preventDefault()
         const bodypart = event.target[0].value
-        const response = await exerciseAPIClient.getExercise(bodypart)
-        const exercisesList = await response.data
+        const exercisesList = await exerciseAPIClient.getExercise(bodypart)
         changeExercises(exercisesList)
         changeTempExerciseList(exercisesList)
     }
@@ -131,7 +129,7 @@ function CustomWorkout(props) {
     const addWorkout = async () => {
 
         const imageData = await unsplashAPIClient.getSpecPic('workout')
-        const image = imageData.data[0].urls.regular
+        const image = imageData[0].urls.regular
 
         const customWorkout = {
             id: Math.floor(Math.random() * 1000000000),
@@ -163,9 +161,8 @@ function CustomWorkout(props) {
             return
         }
 
-        const addWorkOut = await addWorkoutToDatabase(customWorkout)
-        const response = await exerciseAPIClient.getCustomWorkouts()
-        const data = await response.data
+        await addWorkoutToDatabase(customWorkout)
+        const data = await exerciseAPIClient.getCustomWorkouts()
         changeCustomWorkouts([...data])
         deleteList()
     }
