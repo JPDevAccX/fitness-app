@@ -29,7 +29,7 @@ import UserProfile from "./views/UserProfile/UserProfile";
 import Dashboard from "./views/Dashboard";
 import UserAccountSettings from "./views/UserAccountSettings";
 import Recipes from './views/Recipes';
-import SingleWorkoutCard from './components/SingleWorkoutCard';
+import Exercises from './views/Exercises';
 import FrontPage from './views/FrontPage';
 import Community from './views/Community';
 import CustomWorkout from './views/CustomWorkout';
@@ -267,7 +267,7 @@ export default function App() {
 
 						<Route path="/exc" element={<>{
 							(initComplete) &&
-							<SingleWorkoutCard viewCommon={commonData} />
+							<Exercises viewCommon={commonData} />
 							}</>}
 						/>
 

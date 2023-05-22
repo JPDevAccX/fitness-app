@@ -2,12 +2,12 @@ import { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import ExerciseAPIClient from "../services/API/exerciseApiService";
-import "./css/singleWorkoutCard.scss";
-import logo from "./Images/logo.png";
-import top from "./Images/top.png";
-import WorkoutCard from "./WorkoutCard";
+import "./css/exercises.scss";
+import logo from "../components/Images/logo.png";
+import top from "../components/Images/top.png";
+import WorkoutCard from "../components/WorkoutCard";
 
-function SingleWorkoutCard(props) {
+function Exercises(props) {
   const exerciseAPIClient = new ExerciseAPIClient(props.viewCommon.net);
 
   const [bodyparts, setBodyparts] = useState(null);
@@ -109,4 +109,4 @@ function SingleWorkoutCard(props) {
   );
 }
 
-export default SingleWorkoutCard;
+export default Exercises;
