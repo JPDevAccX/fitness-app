@@ -1,7 +1,4 @@
-@mixin flex-center($direction: row) {
-    display: flex;
-    flex-direction: $direction;
-}
+@import "../../scss_mixins/flexCenter.scss" ;
 
 .custom-workout-container{
     width: 100%;

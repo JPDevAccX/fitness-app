@@ -1,9 +1,4 @@
-@mixin flex-center ($direction: row) {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: $direction;
-}
+@import "../../scss_mixins/flexCenter.scss" ;
 
 .post-page-container {
     @include flex-center;
