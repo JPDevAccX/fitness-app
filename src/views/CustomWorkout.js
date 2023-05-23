@@ -192,7 +192,7 @@ function CustomWorkout(props) {
                         <div className='exc-list'>
                             {showList()}
                         </div>
-                        <Button onClick={deleteList} className='orange-btn' variant="primary">Delete List</Button>
+                        <Button onClick={deleteList} className='orange-button smalltext' variant="primary">Delete List</Button>
                         <Button onClick={addWorkout} className='orange-button' variant="primary" >Create</Button>
                     </Col>
                     <Col lg={5} sm={12} className='card-section'>

@@ -133,7 +133,7 @@ function PostPage(props) {
                             />
                         </div>
                         <div className='bottom-wrapper'>
-                            <Button onClick={addCommentHandler} className='btn-orange' variant="primary">Comment</Button>
+                            <Button onClick={addCommentHandler} className='orange-button' variant="primary">Comment</Button>
                         </div>
                     </Card>
                 </Col>

@@ -1,21 +1,3 @@
-@mixin orange-button {
-    text-align: center;
-    text-transform: uppercase;
-    transition: 0.5s;
-    background-size: 200% auto;
-    color: white;
-    border-radius: 10px;
-    display: block;
-    border: 0px;
-    font-weight: 700;
-    box-shadow: 0px 0px 14px -7px #f09819;
-    background-image: linear-gradient(45deg, #FF512F 0%, #F09819  51%, #FF512F  100%) !important;
-    cursor: pointer;
-    user-select: none;
-    -webkit-user-select: none;
-    touch-action: manipulation;
-}
-
 .posts-wrapper {
     width: 100%;
     display: flex;
@@ -87,23 +69,6 @@
             }          
         }    
     }    
-}
-
-.post-modal {
-    .btn-orange {
-        @include orange-button;
-    }
-
-    .btn-orange:hover {
-        background-position: right center;
-        /* change the direction of the change here */
-        color: #fff;
-        text-decoration: none;
-      }
-      
-      .btn-orange:active {
-        transform: scale(0.95);
-      }
 }
 
 @media screen and (min-width: 280px) and (max-width: 768px) {
