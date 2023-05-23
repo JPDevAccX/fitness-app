@@ -79,7 +79,7 @@ function SingleRecipeCard(props) {
     return (
 
         <>
-            <Card className='recipe-card' style={{ width: '18rem' }}>
+            <Card className='recipe-card'>
                 <Card.Img onClick={handleCardClick} variant="top" src={props.imgUrl} />
                 <Card.Body>
                     <Card.Title>{props.title}</Card.Title>

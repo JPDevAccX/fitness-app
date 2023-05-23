@@ -59,7 +59,7 @@ export default function AddPostModal(props) {
                 <Button variant="secondary" onClick={props.handleClose}>
                     Close
                 </Button>
-                <Button className='btn-orange' variant="primary" onClick={handleSubmit}>
+                <Button className='orange-button' variant="primary" onClick={handleSubmit}>
                     Save Changes
                 </Button>
             </Modal.Footer>

@@ -11,7 +11,7 @@ export default function NotificationCard({data: {imageUrl, imageLink, title, dat
 	}
 
   return (
-    <Card className={"component-notification text-center " + cssClassName}>
+    <Card className={"component-notification wide text-center " + cssClassName}>
 			<Card.Body className="p-2">
 				<div className="d-flex justify-content-between">
 					<div className="d-flex align-items-center gap-2">

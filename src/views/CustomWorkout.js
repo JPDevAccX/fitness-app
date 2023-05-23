@@ -66,7 +66,7 @@ function CustomWorkout(props) {
     const displayExercises = () => {
         return exercises?.map((exercise, index) => {
             return (
-                <Card onClick={() => transferID(exercise.id, exercise.name, exercise.gifUrl)} className='exc-card' key={index} style={{ width: '18rem' }}>
+                <Card onClick={() => transferID(exercise.id, exercise.name, exercise.gifUrl)} className='exc-card' key={index}>
                     <Card.Title>{exercise.name}</Card.Title>
                 </Card>
             )
@@ -192,7 +192,7 @@ function CustomWorkout(props) {
                         <div className='exc-list'>
                             {showList()}
                         </div>
-                        <Button onClick={deleteList} className='orange-btn' variant="primary">Delete List</Button>
+                        <Button onClick={deleteList} className='orange-button smalltext' variant="primary">Delete List</Button>
                         <Button onClick={addWorkout} className='orange-button' variant="primary" >Create</Button>
                     </Col>
                     <Col lg={5} sm={12} className='card-section'>

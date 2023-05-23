@@ -99,7 +99,7 @@ function PostPage(props) {
         <>
             <Row className='post-page-container'>
                 <Col lg={6} className='post-page-left-panel'>
-                    <Card style={{ width: '18rem' }}>
+                    <Card>
                         <Card.Body>
                             <Card.Text>
                                 <img className='post-page-user-image' src={url} alt='' />
@@ -133,7 +133,7 @@ function PostPage(props) {
                             />
                         </div>
                         <div className='bottom-wrapper'>
-                            <Button onClick={addCommentHandler} className='btn-orange' variant="primary">Comment</Button>
+                            <Button onClick={addCommentHandler} className='orange-button' variant="primary">Comment</Button>
                         </div>
                     </Card>
                 </Col>

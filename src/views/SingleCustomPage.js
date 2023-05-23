@@ -14,7 +14,7 @@ function SingleCustomPage(props) {
     const showExercises = () => {
         return props.currentCustomWorkout?.exercises?.map((exercise, index) => {
             return (
-                <Card className='exercise-card' key={index} style={{ width: '18rem' }}>
+                <Card className='exercise-card' key={index}>
                     <Card.Img variant="top" src={exercise[2]} />
                     <Card.Body>
                         <Card.Title className='card-title'>{exercise[0]}</Card.Title>

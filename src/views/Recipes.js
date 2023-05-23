@@ -149,7 +149,7 @@ function Recipes(props) {
                             <Form.Control type="text" placeholder="Enter name of food" />
                         </Form.Group>
                         <br />
-                        <Button className="btn-orange" variant="primary" type="submit">Fetch recipes!</Button>
+                        <Button className="orange-button" variant="primary" type="submit">Fetch recipes!</Button>
                     </Form>
                     <br />
                     <br />
@@ -167,7 +167,7 @@ function Recipes(props) {
                             <Form.Control defaultValue={searchBarValues.unit} id="unit" type="text" placeholder="Enter weight unit" />
                         </Form.Group>
                         <br />
-                        <Button className="btn-orange" variant="primary" type="submit">Fetch nutrition!</Button>
+                        <Button className="orange-button" variant="primary" type="submit">Fetch nutrition!</Button>
                     </Form>
                     <NutritionModal
                         ingredient={ingredient}

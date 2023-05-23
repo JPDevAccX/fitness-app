@@ -53,7 +53,7 @@ function Library(props) {
 
     const showWorkouts = () => {
         return savedWorkouts?.map((workout, index) =>
-            <Card key={index} onClick={() => showWorkoutPage(workout)} className='recipe-card' style={{ width: '18rem' }}>
+            <Card key={index} onClick={() => showWorkoutPage(workout)} className='recipe-card'>
                 <Card.Img variant="top" src={workout.image} />
                 <Card.Body>
                     <Card.Title>{workout.title}</Card.Title>

@@ -15,7 +15,7 @@ function SingleCustomCard(props) {
 
     return (
         <>
-            <Card onClick={showPage} className='custom-card' style={{ width: '18rem' }}>
+            <Card onClick={showPage} className='custom-card'>
                 <Card.Img variant="top" src={props.customWorkout.image} />
                 <Card.Body>
                     <Card.Title className='t-center'>{props.customWorkout.title}</Card.Title>

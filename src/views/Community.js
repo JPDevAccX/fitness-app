@@ -61,7 +61,7 @@ function Community(props) {
         if (user) {
             const url = getProfileImageUrl(user.imageUrl)
             return (
-                <Card className='user-card' style={{ width: '18rem' }}>
+                <Card className='user-card'>
                     <Card.Img className='user-card-img' onClick={showProfile} variant="top" src={url} />
                     <Card.Body>
                         <Card.Title className='user-card-username'>{user.userName}</Card.Title>

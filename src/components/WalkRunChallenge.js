@@ -44,11 +44,7 @@ function WalkRunChallenge() {
 
   return (
     <Card className="text-center">
-      <Card.Img
-        variant="top"
-        src={runImage}
-        style={{ width: "510px", height: "auto" }}
-      />
+      <Card.Img variant="top" src={runImage} />
       <Card.Header>
         <h2>Walk/Run Challenge</h2>
       </Card.Header>
