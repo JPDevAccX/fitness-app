@@ -30,7 +30,7 @@ export default function MessageCard({data: {sourceImageUrl, sourceUserName, mess
 	}
 
   return (
-    <Card id={id} className="component-message-card text-center">
+    <Card id={id} className="component-message-card wide text-center">
 			<Card.Body className="p-2">
 				<div className="d-flex justify-content-between">
 					<div className="d-flex align-items-center gap-2">

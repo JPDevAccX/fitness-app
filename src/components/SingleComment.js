@@ -8,7 +8,7 @@ function SingleComment(props) {
     const url = getProfileImageUrl(props.comment.profileImg)
 
     return (
-        <Card className='comment-card' style={{ width: '18rem' }}>
+        <Card className='comment-card'>
             <img className='comment-card-image' src={url}></img>
             <Card.Body className='comment-body'>
                 <Card.Title>

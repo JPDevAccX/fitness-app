@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&family=Raleway:wght@200;300;400&family=Raleway+Dots&family=Rubik+Pixels&family=Sacramento&family=Special+Elite&display=swap');
 
-
 * {
 	margin: 0;
 	padding: 0;
@@ -23,4 +22,11 @@ body {
 
 .my-link-pointer {
 	cursor: pointer;
+}
+
+.card {
+	width: 18rem; // (default card width)
+	&.wide {
+		width: 100% ;
+	}
 }

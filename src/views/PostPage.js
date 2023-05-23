@@ -99,7 +99,7 @@ function PostPage(props) {
         <>
             <Row className='post-page-container'>
                 <Col lg={6} className='post-page-left-panel'>
-                    <Card style={{ width: '18rem' }}>
+                    <Card>
                         <Card.Body>
                             <Card.Text>
                                 <img className='post-page-user-image' src={url} alt='' />

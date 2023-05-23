@@ -40,11 +40,7 @@ function WaterIntakeChallenge() {
 
   return (
     <Card>
-      <Card.Img
-        variant="top"
-        src={waterImage}
-        style={{ width: "300px", height: "auto", margin: "0 auto" }}
-      />
+      <Card.Img variant="top" src={waterImage} />
 
       <Card.Header>
         <h2>Water Intake Challenge</h2>

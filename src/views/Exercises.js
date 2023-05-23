@@ -41,7 +41,7 @@ function Exercises(props) {
       <div className="card-container">
         {bodyparts && 
 				bodyparts.map((bp) => (
-					<Card key={bp} className="card"	onClick={() => handleCardClick(bp)} style={{ width: "18rem" }}>
+					<Card key={bp} className="card"	onClick={() => handleCardClick(bp)}>
 						<Card.Body>
 							<Card.Title className="card-title">
 								<img src={logo} alt="Logo" className="logo" />

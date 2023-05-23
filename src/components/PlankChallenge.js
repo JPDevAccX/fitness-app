@@ -47,11 +47,7 @@ function PlankChallenge() {
 
   return (
     <Card className="text-center">
-      <Card.Img
-        variant="top"
-        src={plankImage}
-        style={{ width: "510px", height: "auto" }}
-      />
+      <Card.Img variant="top" src={plankImage} />
       <Card.Header>
         <h2>30-Day Plank Challenge</h2>
       </Card.Header>

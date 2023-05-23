@@ -3,7 +3,7 @@ import Card from "react-bootstrap/Card";
 
 const WorkoutCard = (props) => {
   return (
-    <Card style={{ width: "18rem" }}>
+    <Card>
       <Card.Img variant="top" src={props.imgUrl} alt="Logo" />
       <Card.Body>
         <Card.Title>

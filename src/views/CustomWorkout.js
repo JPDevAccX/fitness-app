@@ -66,7 +66,7 @@ function CustomWorkout(props) {
     const displayExercises = () => {
         return exercises?.map((exercise, index) => {
             return (
-                <Card onClick={() => transferID(exercise.id, exercise.name, exercise.gifUrl)} className='exc-card' key={index} style={{ width: '18rem' }}>
+                <Card onClick={() => transferID(exercise.id, exercise.name, exercise.gifUrl)} className='exc-card' key={index}>
                     <Card.Title>{exercise.name}</Card.Title>
                 </Card>
             )

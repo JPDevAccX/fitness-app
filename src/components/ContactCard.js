@@ -13,7 +13,7 @@ export default function ContactCard({data: {imageUrl, userName}, handleSendMessa
 	const imageLink = `/showprofile/${userName}` ;
 
   return (
-    <Card className="component-contact-card text-center">
+    <Card className="component-contact-card wide text-center">
 			<Card.Body className="p-2">
 				<div className="d-flex align-items-center gap-2">
 					<div className={imageLink ? 'contact-card-image my-link-pointer' : 'contact-card-image'} onClick={() => handleNavigation(imageLink)}>

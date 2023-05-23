@@ -78,7 +78,7 @@ function SinglePost(props) {
 
     return (
         <>
-            <Card className='post-card' style={{ width: '18rem' }}>
+            <Card className='post-card'>
                 <Card.Body className='post-card-body'>
                     <img onClick={showProfile} className='post-card-image' src={url}></img>
                     <div className='post-username'>
