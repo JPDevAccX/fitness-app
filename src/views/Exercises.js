@@ -39,34 +39,19 @@ function Exercises(props) {
   return (
     <div className="component-single-workout-card">
       <div className="card-container">
-        {bodyparts ? (
-          bodyparts.map((bp) => (
-            <Card
-              key={bp}
-              className="card"
-              onClick={() => handleCardClick(bp)}
-              style={{ width: "18rem" }}
-            >
-              <Card.Body>
-                <Card.Title className="card-title">
-                  <img src={logo} alt="Logo" className="logo" />
-                  <h2>{props.name}</h2>
-                </Card.Title>
-                <Card.Text>{bp}</Card.Text>
-              </Card.Body>
-            </Card>
-          ))
-        ) : (
-          <Card className="card" style={{ width: "18rem" }}>
-            <Card.Body>
-              <Card.Title>
-                <h2>{props.name}</h2>
-              </Card.Title>
-              <Card.Text>No bodyparts found.</Card.Text>
-              <Button variant="primary">Go somewhere</Button>
-            </Card.Body>
-          </Card>
-        )}
+        {bodyparts && 
+				bodyparts.map((bp) => (
+					<Card key={bp} className="card"	onClick={() => handleCardClick(bp)} style={{ width: "18rem" }}>
+						<Card.Body>
+							<Card.Title className="card-title">
+								<img src={logo} alt="Logo" className="logo" />
+								<h2>{props.name}</h2>
+							</Card.Title>
+							<Card.Text>{bp}</Card.Text>
+						</Card.Body>
+					</Card>
+				))
+       }
       </div>
       <>
         {worksoutsForBodyPart && (
