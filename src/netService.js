@@ -1,12 +1,12 @@
 import axios from "axios";
 
-const CONTENT_JSON = {
+export const CONTENT_JSON = {
 	'content-type': 'application/json'
 };
 
 const SLOW_REQUEST_THRESHOLD_MS = 400 ;
 
-const API_URL = process.env.REACT_APP_API_URL;
+export const API_URL = process.env.REACT_APP_API_URL;
 
 export default class NetService {
 	constructor({
