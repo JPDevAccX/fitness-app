@@ -1,12 +1,12 @@
-import NetService from "../netService";
+import QueuedNetService from "../queuedNetService";
 
 const EP_PROFILE = 'profile' ;
 const EP_PROFILE_IMAGE = EP_PROFILE + '/image' ;
 const EP_PROFILE_USERNAME = EP_PROFILE + '/userName' ;
 
-export default class UserProfileService extends NetService {
+export default class UserProfileService extends QueuedNetService {
 	updateFieldValue(fieldName, value) {
-		return this.patch(EP_PROFILE + '/' + fieldName, {value}) ;
+		return this.patch(EP_PROFILE + '/' + fieldName, {value}, {queueId: fieldName, queueTimeout: 200}) ;
 	}
 
 	updateImage(category, dataBlob) {

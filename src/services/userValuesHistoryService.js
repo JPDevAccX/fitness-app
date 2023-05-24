@@ -1,9 +1,9 @@
-import NetService from "../netService";
+import QueuedNetService from "../queuedNetService";
 
 const EP_USERVALUEHISTORY = 'userValueHistory';
 const EP_USERVALUEHISTORY_FIRSTVALFORFIELD = EP_USERVALUEHISTORY + '/getFirstValueForField' ;
 
-export default class UserValuesHistoryService extends NetService {
+export default class UserValuesHistoryService extends QueuedNetService {
 	getAllHistory() {
 		return this.get(EP_USERVALUEHISTORY) ;
 	}
@@ -13,6 +13,7 @@ export default class UserValuesHistoryService extends NetService {
 	}
 
 	setHistoryFieldValue(date, fieldName, value) {
-		return this.patch(EP_USERVALUEHISTORY + '/' + date + '/' + fieldName, {value}) ;
+		const fieldId = date + '/' + fieldName ;
+		return this.patch(EP_USERVALUEHISTORY + '/' + fieldId, {value}, {queueId: fieldId, queueTimeout: 200}) ;
 	}
 }

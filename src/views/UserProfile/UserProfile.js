@@ -2,7 +2,7 @@
 import '../css/userProfile.scss' ;
 
 // React and other packages
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router';
 import { useNavigate } from "react-router-dom";
 
@@ -62,8 +62,15 @@ export const defaults = {
 } ;
 
 export default function UserProfile({nextPage, viewCommon}) {
-	const userProfileService = new UserProfileService(viewCommon.net);
-	const userValuesHistoryService = new UserValuesHistoryService(viewCommon.net);
+	let userProfileService = useRef(null);
+	let userValuesHistoryService = useRef(null);
+
+	useEffect(() => {
+		userProfileService.current = new UserProfileService(viewCommon.net);
+		userValuesHistoryService.current = new UserValuesHistoryService(viewCommon.net);
+	}, []) ;
+
+
 
 	const navigate = useNavigate();
 	let { section } = useParams();
@@ -86,7 +93,7 @@ export default function UserProfile({nextPage, viewCommon}) {
 	const [ historyValues, changeHistoryValues ] = useState([]) ;
 	useEffect(() => {
 		if (section === 'history') {
-			userValuesHistoryService.getAllHistory().then((data) => {
+			userValuesHistoryService.current.getAllHistory().then((data) => {
 				changeHistoryValues(data.historyValues) ;
 			}) ;
 		}
@@ -118,10 +125,10 @@ export default function UserProfile({nextPage, viewCommon}) {
 			newFormValues.weightGoalValue = roundValue(convertBetweenWeightAndBMI(formValues.weightGoalValue, oldValue, newValue, formValues.height), 2) ;
 			// (Ideally this should be an atomic operation to ensure data-consistency (together with the units-type-update))
 			// (TODO: so maybe add a multi-field-update endpoint for this later)
-			userProfileService.updateFieldValue('weightGoalValue', newFormValues.weightGoalValue) ;
+			userProfileService.current.updateFieldValue('weightGoalValue', newFormValues.weightGoalValue) ;
 		}
 
-		userProfileService.updateFieldValue(fieldName, newValue) ;
+		userProfileService.current.updateFieldValue(fieldName, newValue) ;
 		dispatch({type: 'setProfile', data: newFormValues});
   }
 
@@ -134,7 +141,7 @@ export default function UserProfile({nextPage, viewCommon}) {
 		const newHistoryValues = [...historyValues] ;
 		newHistoryValues[fieldIndex][fieldName] = newValue;
 
-		userValuesHistoryService.setHistoryFieldValue(fieldDate, fieldName, newValue).then((data) => {
+		userValuesHistoryService.current.setHistoryFieldValue(fieldDate, fieldName, newValue).then((data) => {
 			if (data.profileUpdated) dispatch({type: 'setProfile', data: {...formValues, [fieldName]: newValue}});
 		}) ;
 		changeHistoryValues(newHistoryValues) ;
@@ -143,7 +150,7 @@ export default function UserProfile({nextPage, viewCommon}) {
 	// Handle next-page action
   const handleNextPageClick = (event) => {
     event.preventDefault() ;
-		userProfileService.updateFieldValue('onboardingStageComplete', true) ;
+		userProfileService.current.updateFieldValue('onboardingStageComplete', true) ;
 		navigate(actualNextPage) ;
   }
 
@@ -152,7 +159,7 @@ export default function UserProfile({nextPage, viewCommon}) {
 			var reader = new FileReader();
 			reader.readAsDataURL(file);
 			reader.onload = function(e) {
-				userProfileService.updateImage('profile', e.target.result).then(({url}) => {
+				userProfileService.current.updateImage('profile', e.target.result).then(({url}) => {
 					const newFormValues = {...formValues} ;
 					newFormValues.imageUrl = url ;
 					dispatch({type: 'setProfile', data: newFormValues});
@@ -162,7 +169,7 @@ export default function UserProfile({nextPage, viewCommon}) {
 	} ;
 
 	const handleImageRemove = () => {
-		userProfileService.removeImage('profile').then(() => {
+		userProfileService.current.removeImage('profile').then(() => {
 			const newFormValues = {...formValues} ;
 			newFormValues.imageUrl = "" ;
 			dispatch({type: 'setProfile', data: newFormValues});
@@ -175,7 +182,7 @@ export default function UserProfile({nextPage, viewCommon}) {
 		newFormValues.selectedGoalIds = newSelectedGoalIds ;
 		dispatch({type: 'setProfile', data: newFormValues}) ;
 
-		userProfileService.updateFieldValue('selectedGoalIds', newSelectedGoalIds) ;
+		userProfileService.current.updateFieldValue('selectedGoalIds', newSelectedGoalIds) ;
 	}
 
 	const handleRemoveGoal = (goalId) => {
@@ -184,7 +191,7 @@ export default function UserProfile({nextPage, viewCommon}) {
 		newFormValues.selectedGoalIds = newSelectedGoalIds ;
 		dispatch({type: 'setProfile', data: newFormValues});
 
-		userProfileService.updateFieldValue('selectedGoalIds', newSelectedGoalIds) ;
+		userProfileService.current.updateFieldValue('selectedGoalIds', newSelectedGoalIds) ;
 	}
 
 	const ageOpts = [
