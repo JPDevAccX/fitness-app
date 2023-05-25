@@ -27,7 +27,7 @@ export default class QueuedNetService extends NetService {
 			setTimeout(() => this._processQueue(), 100) ;
 			return promise ;
 		}
-		else return super.request(method, url, data = null, extraHeaders = {}, opts = {})
+		else return super.request(method, url, data, extraHeaders, opts)
 	}
 
 	// Empty-body functions
