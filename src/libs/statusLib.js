@@ -9,27 +9,36 @@ export default class StatusLib {
 	// Set error-status for the specified category
 	setErrorStatus(category, msg) {
 		if (msg === null) this.removeErrorStatus(category) ;
-		else this.changeErrorStatusList((errorStatusList) => ({ ...errorStatusList, [category]: msg }));
+		else {
+			this.changeErrorStatusList((errorStatusList) => ({ ...errorStatusList, [category]: msg }));
+			if (this.changeSuccessMessage) this.changeSuccessMessage(null) ;
+		}
 	}
 
 	// Remove error-status for the specified category
 	removeErrorStatus(category) {
-		this.changeErrorStatusList((errorStatusList) => {
-			const newErrorStatusList = { ...errorStatusList };
-			delete newErrorStatusList[category];
-			return newErrorStatusList;
-		});
+		this.changeErrorStatusList((errorStatusList) => ({ ...errorStatusList, [category]: null }));
 	}
 
 	// Retrieve active (non-blank) error
 	getError() {
 		const values = Object.values(this.errorStatusList);
-		if (values.length === 0) return null;
-		let activeMsg = '';
+		if (Object.keys(this.errorStatusList).includes('newPassword')) console.log(this.errorStatusList) ;
+
+		// Determine if error
+		let isError = false ;
 		for (const msg of values) {
-			if (msg) activeMsg = msg;
+			if (msg !== null) isError = true ;
 		}
-		return activeMsg;
+		if (!isError) return null ;
+
+		// Get active error (one to be actually displayed)
+		for (const msg of values) {
+			if (msg) return msg ;
+		}
+
+		// (error state but no active error for display)
+		return '' ;
 	}
 
 	// Returns boolean denoting whether there is currently an error
@@ -50,7 +59,7 @@ export default class StatusLib {
 	// Get status-message (error or success) in HTML format
 	getStatusMessageHtml() {
 		const error = this.getError() ;
-		if (error !== null) return StatusLib.getMessageHtml(error);
+		if (error !== null || !this.changeSuccessMessage) return StatusLib.getMessageHtml(error);
 		else if (this.changeSuccessMessage) return StatusLib.getMessageHtml(this.successMessage, 'success');
 	}
 
