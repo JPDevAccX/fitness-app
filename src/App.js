@@ -20,6 +20,7 @@ import Footer from "./components/Footer";
 import StatusMessage from "./components/StatusMessage";
 import ErrorModal from "./components/ErrorModal";
 import Spinner from "./components/Spinner";
+import ProfileModal from './components/ProfileModal'
 
 // Our views (pages)
 import UserRegister from "./views/UserRegister";
@@ -153,6 +154,7 @@ export default function App() {
 
 	const [currentPost, changeCurrentPost] = useState({}); // (Community and PostPage shared state)
 	const [currentCustomWorkout, changeCurrentCustomWorkout] = useState(); // (CustomWorkout, Library, SingleCustomPage shared state)
+	const [userProfileDisplay, changeUserProfileDisplay] = useState(null) // (Profile modal)
 
 	// the quotes end-point is not responsive at the moment so this is commented out
 	// const getQuote = async () => {
@@ -164,10 +166,14 @@ export default function App() {
 	return (
 		<>
 			<Spinner isActive={slowRequestCounter > 0} />
-
 			<StatusMessage msgData={msgData} setMsgData={setMsgData} />
-
 			<ErrorModal	handleClose={() => changeErrorMessage(null)} errorMessage={errorMessage} />
+			<ProfileModal
+        size="lg"
+        show={userProfileDisplay}
+        onHide={() => changeUserProfileDisplay(null)}
+        userProfile={userProfileDisplay}
+      />
 
 			{(initComplete) && <NavigationBar logout={logout} userIdentifier={userDataState.profile.userName} />}
 
@@ -184,7 +190,11 @@ export default function App() {
 						} />
 
 						<Route path="/community" element={
-							<Community viewCommon={commonData} changeCurrentPost={changeCurrentPost} />
+							<Community
+								viewCommon={commonData}
+								changeCurrentPost={changeCurrentPost}
+								changeUserProfileDisplay={changeUserProfileDisplay}
+							/>
 						} />
 
 						<Route path="/postview" element={
@@ -240,19 +250,19 @@ export default function App() {
 
 						<Route path="/contacts" element={<>{
 							(initComplete) &&
-							<Contacts viewCommon={commonData} />
+							<Contacts viewCommon={commonData} changeUserProfileDisplay={changeUserProfileDisplay} />
 						}</>}
 						/>
 
 						<Route path="/messages" element={<>{
 							(initComplete) &&
-							<Messages viewCommon={commonData} />
+							<Messages viewCommon={commonData} changeUserProfileDisplay={changeUserProfileDisplay} />
 						}</>}
 						/>
 
 						<Route path="/messages/:id" element={<>{
 							(initComplete) &&
-							<Messages viewCommon={commonData} />
+							<Messages viewCommon={commonData}  changeUserProfileDisplay={changeUserProfileDisplay} />
 						}</>}
 						/>
 
@@ -273,7 +283,7 @@ export default function App() {
 
 						<Route path="/" element={<>{
 							(initComplete) ?
-								<Dashboard viewCommon={commonData} /> :
+								<Dashboard viewCommon={commonData} changeUserProfileDisplay={changeUserProfileDisplay} /> :
 								(!token) && <FrontPage />
 						}</>}
 						/>

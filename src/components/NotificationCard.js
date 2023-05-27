@@ -3,7 +3,9 @@ import { Button, Card } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { formatMonth, formatTime } from "../utils/utils";
 
-export default function NotificationCard({data: {imageUrl, imageLink, title, dateTime, msgMain, msgMainLink, msgSub, cssClassName, acceptCallback, dismissCallback}}) {
+export default function NotificationCard({data:
+	{imageUrl, title, dateTime, msgMain, msgMainLink, msgSub, cssClassName, acceptCallback, dismissCallback},
+	handleSourceImageClick}) {
 	const navigate = useNavigate() ;
 
 	function handleNavigation(link) {
@@ -15,7 +17,7 @@ export default function NotificationCard({data: {imageUrl, imageLink, title, dat
 			<Card.Body className="p-2">
 				<div className="d-flex justify-content-between">
 					<div className="d-flex align-items-center gap-2">
-						<div className={imageLink ? 'notification-image my-link-pointer' : 'notification-image'} onClick={() => handleNavigation(imageLink)}>
+						<div className={handleSourceImageClick ? 'notification-image my-link-pointer' : 'notification-image'} onClick={handleSourceImageClick}>
 							<img src={imageUrl} alt="" />
 						</div>
 						<Card.Title className="fs-6">{title}</Card.Title>

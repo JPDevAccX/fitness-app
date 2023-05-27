@@ -1,21 +1,13 @@
 import "./css/messageCard.scss"
 import { Button, Card } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
 import { getProfileImageUrl } from "../utils/image";
 import { formatMonth, formatTime } from "../utils/utils";
 import { useState } from "react";
 
 export default function MessageCard({data: {sourceImageUrl, sourceUserName, messageSubject, messageSummary, messageContent, dateTime}, 
-	id, getFullMessage, handleReplyToMessage, handleRemoveMessage}) {
-	const navigate = useNavigate() ;
+	id, getFullMessage, handleReplyToMessage, handleRemoveMessage, handleDisplayProfile}) {
 
 	const [showFullMessage, changeShowFullMessage] = useState(false) ;
-
-	function handleNavigation(link) {
-		if (link) navigate(link) ;
-	}
-
-	const imageLink = `/showprofile/${sourceUserName}` ;
 
 	let messageType ;
 	if (showFullMessage && messageContent) messageType = 'full' ;
@@ -34,7 +26,7 @@ export default function MessageCard({data: {sourceImageUrl, sourceUserName, mess
 			<Card.Body className="p-2">
 				<div className="d-flex justify-content-between">
 					<div className="d-flex align-items-center gap-2">
-						<div className='message-card-image my-link-pointer' onClick={() => handleNavigation(imageLink)}>
+						<div className='message-card-image my-link-pointer' onClick={handleDisplayProfile}>
 							<img src={getProfileImageUrl(sourceImageUrl)} alt="" />
 						</div>
 						<span className="fs-6">{sourceUserName}</span>

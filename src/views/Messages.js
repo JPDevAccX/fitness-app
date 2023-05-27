@@ -11,6 +11,7 @@ import { Button } from "react-bootstrap";
 // Network services
 import ContactService from "../services/contactService";
 import MessageService from "../services/messageService";
+import UserProfileService from "../services/userProfileService";
 
 // Our components
 import MessageCard from "../components/MessageCard" ;
@@ -21,12 +22,13 @@ import { UserContext } from "../contexts/User"
 
 // ==============================================================================
 
-export default function Messages({viewCommon}) {
+export default function Messages({viewCommon, changeUserProfileDisplay}) {
 	let { id } = useParams();
 	const hasScrolled = useRef(false) ;
 
 	const contactService = new ContactService(viewCommon.net);
 	const messageService = new MessageService(viewCommon.net);
+	const userProfileService = new UserProfileService(viewCommon.net);
 
 	const [ userDataState, userDataDispatch ] = React.useContext(UserContext) ;
 	const contacts = userDataState.contacts ;
@@ -106,6 +108,12 @@ export default function Messages({viewCommon}) {
 		}) ;
 	}
 
+	function handleDisplayProfile(userName) {
+		userProfileService.getProfile(userName).then((data) => {
+			changeUserProfileDisplay(data) ;
+		}) ;
+	}
+
 	return (
 		<>
 			<div className="page-messages">
@@ -122,6 +130,7 @@ export default function Messages({viewCommon}) {
 							getFullMessage={() => getFullMessage(messageMeta._id)}
 							handleReplyToMessage={() => sendMessageTo(messageMeta.sourceUserName)}
 							handleRemoveMessage={() => handleRemoveMessage(messageMeta._id)}
+							handleDisplayProfile={() => handleDisplayProfile(messageMeta.sourceUserName)}
 					/>)
 				}
 				</div>

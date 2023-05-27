@@ -8,14 +8,11 @@ import UserProfileService from '../services/userProfileService'
 import { getProfileImageUrl } from '../utils/image'
 import { ReactComponent as Message } from '../images/message.svg'
 import { ReactComponent as Add } from '../images/plus.svg'
-import ProfileModal from '../components/ProfileModal'
 import MessageService from '../services/messageService'
 
 function Community(props) {
     const [posts, changePosts] = useState([])
     const [user, changeUser] = useState()
-		const [userProfile, changeUserProfile] = useState({})
-    const [lgShow, setLgShow] = useState(false);
 
     const communityService = new CommunityService(props.viewCommon.net);
 		const userProfileService = new UserProfileService(props.viewCommon.net);
@@ -48,12 +45,6 @@ function Community(props) {
         changeUser(userProfile)
     }
 
-    const showProfile = async () => {
-        const userProfile = await findUser(user?.userName)
-        props.changeUserProfile(userProfile)
-        setLgShow(true)
-    }
-
     const sendmessage = async () => {
     }
 
@@ -62,7 +53,7 @@ function Community(props) {
             const url = getProfileImageUrl(user.imageUrl)
             return (
                 <Card className='user-card'>
-                    <Card.Img className='user-card-img' onClick={showProfile} variant="top" src={url} />
+                    <Card.Img className='user-card-img' onClick={() => handleDisplayProfile(user.userName)} variant="top" src={url} />
                     <Card.Body>
                         <Card.Title className='user-card-username'>{user.userName}</Card.Title>
                         <Card.Text>
@@ -76,6 +67,12 @@ function Community(props) {
             )
         }
     }
+
+	function handleDisplayProfile(userName) {
+		userProfileService.getProfile(userName).then((data) => {
+			props.changeUserProfileDisplay(data) ;
+		}) ;
+	}
 
     return (
         <>
@@ -92,14 +89,6 @@ function Community(props) {
                         </Form>
                         {displayUsercard(user)}
                     </div>
-                    <ProfileModal
-                        size="lg"
-                        show={lgShow}
-                        onHide={() => setLgShow(false)}
-                        aria-labelledby="example-modal-sizes-title-lg"
-                        viewCommon={props.viewCommon}
-                        userProfile={userProfile}
-                    />
                     <AddPostModal
                         show={show}
                         handleClose={() => setShow(false)}
@@ -114,8 +103,7 @@ function Community(props) {
                             viewCommon={props.viewCommon}
                             posts={posts}
                             changeCurrentPost={props.changeCurrentPost}
-                            userProfile={userProfile}
-                            changeUserProfile={changeUserProfile}
+                            handleDisplayProfile={handleDisplayProfile}
                         />
                     </div>
                 </Col>
