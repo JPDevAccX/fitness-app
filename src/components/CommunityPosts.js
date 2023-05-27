@@ -11,8 +11,7 @@ function CommunityPosts(props) {
 								viewCommon={props.viewCommon}
                 post={post}
                 changeCurrentPost={props.changeCurrentPost}
-                userProfile={props.userProfile}
-                changeUserProfile={props.changeUserProfile}
+                handleDisplayProfile={() => props.handleDisplayProfile(post.username)}
             />
         )
     }

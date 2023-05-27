@@ -23,8 +23,7 @@ export default class StatusLib {
 	// Retrieve active (non-blank) error
 	getError() {
 		const values = Object.values(this.errorStatusList);
-		if (Object.keys(this.errorStatusList).includes('newPassword')) console.log(this.errorStatusList) ;
-
+	
 		// Determine if error
 		let isError = false ;
 		for (const msg of values) {

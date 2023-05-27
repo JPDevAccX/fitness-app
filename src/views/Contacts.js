@@ -10,6 +10,7 @@ import { Button, Form, Modal } from "react-bootstrap";
 // Network services
 import ContactService from "../services/contactService";
 import MessageService from "../services/messageService";
+import UserProfileService from "../services/userProfileService";
 
 // Our components
 import ContactCard from "../components/ContactCard" ;
@@ -20,9 +21,10 @@ import { UserContext } from "../contexts/User"
 
 // ==============================================================================
 
-export default function Contacts({viewCommon}) {
+export default function Contacts({viewCommon, changeUserProfileDisplay}) {
 	const contactService = new ContactService(viewCommon.net);
 	const messageService = new MessageService(viewCommon.net);
+	const userProfileService = new UserProfileService(viewCommon.net);
 
 	const [ userDataState, userDataDispatch ] = React.useContext(UserContext) ;
 	const contacts = userDataState.contacts ;
@@ -85,6 +87,12 @@ export default function Contacts({viewCommon}) {
 		changeContactReqSentTo(null) ;
 	}
 
+	function handleDisplayProfile(userName) {
+		userProfileService.getProfile(userName).then((data) => {
+			changeUserProfileDisplay(data) ;
+		}) ;
+	}
+
 	return (
 		<>
 			<div className="page-contacts">
@@ -121,6 +129,7 @@ export default function Contacts({viewCommon}) {
 							key={contact._id} data={contact} ///
 							handleSendMessage={() => handleSendMessage(contact.userName)}
 							handleRemoveContact={() => handleRemoveContact(contact.userName)}
+							handleDisplayProfile={() => handleDisplayProfile(contact.userName)}
 					/>)
 				}
 				</div>

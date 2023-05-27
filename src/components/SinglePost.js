@@ -5,7 +5,6 @@ import { ReactComponent as Comments } from "../images/comments.svg"
 import { ReactComponent as LolFace } from "../images/lol2.svg"
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'
-import ProfileModal from './ProfileModal';
 import CommunityService from '../services/communityService'
 import UserProfileService from '../services/userProfileService'
 import { getProfileImageUrl } from '../utils/image'
@@ -56,31 +55,17 @@ function SinglePost(props) {
 				updateLols()
     }
 
-    const [lgShow, setLgShow] = useState(false);
-
-
     const navigate = useNavigate();
 
     const navigateToPostView = () => {
         props.changeCurrentPost(props.post)
         navigate(`/postview`)
     }
-
-    const findUser = async (data) => {
-        return await userProfileService.getProfile(data);
-    }
-
-    const showProfile = async () => {
-        const userProfile = await findUser(props.post.username)
-        props.changeUserProfile(userProfile)
-        setLgShow(true)
-    }
-
     return (
         <>
             <Card className='post-card'>
                 <Card.Body className='post-card-body'>
-                    <img onClick={showProfile} className='post-card-image' src={url}></img>
+                    <img onClick={props.handleDisplayProfile} className='post-card-image' src={url}></img>
                     <div className='post-username'>
                         <Card.Title>{props.post.username}</Card.Title>
                         <Card.Text onClick={navigateToPostView}>
@@ -101,15 +86,6 @@ function SinglePost(props) {
                     </div>
                 </Card.Body>
             </Card>
-            <ProfileModal
-                size="lg"
-                show={lgShow}
-                onHide={() => setLgShow(false)}
-                aria-labelledby="example-modal-sizes-title-lg"
-                viewCommon={props.viewCommon}
-                userProfile={props.userProfile}
-
-            />
         </>
     )
 }

@@ -22,7 +22,7 @@ import { UserContext } from "../contexts/User"
 
 // ==============================================================================
 
-export default function Dashboard({viewCommon}) {
+export default function Dashboard({viewCommon, changeUserProfileDisplay}) {
 	// State
 	const [ userDataState, userDataDispatch ] = React.useContext(UserContext) ;
 	const {prefs, profile} = userDataState ;
@@ -111,6 +111,12 @@ export default function Dashboard({viewCommon}) {
 		}) ;	
 	}
 
+	function handleDisplayProfile(userName) {
+		userProfileService.getProfile(userName).then((data) => {
+			changeUserProfileDisplay(data) ;
+		}) ;
+	}
+
 	return (
 		<div className="page-dashboard">
 			<h1>Dashboard</h1>
@@ -118,7 +124,11 @@ export default function Dashboard({viewCommon}) {
 				<h2>Notifications</h2>
 			{
 				formattedNotifications.map((formattedNotification) =>
-					<NotificationCard key={formattedNotification.id} data={formattedNotification} />)
+					<NotificationCard
+						key={formattedNotification.id}
+						data={formattedNotification}
+						handleSourceImageClick={() => handleDisplayProfile(formattedNotification.sourceUserName)}
+					/>)
 			}
 			</div>
 
