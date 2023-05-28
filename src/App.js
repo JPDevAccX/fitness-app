@@ -198,7 +198,7 @@ export default function App() {
 						} />
 
 						<Route path="/postview" element={
-							<PostPage viewCommon={commonData}	currentPost={currentPost}	/>
+							<PostPage viewCommon={commonData}	currentPost={currentPost}	changeUserProfileDisplay={changeUserProfileDisplay} />
 						} />
 
 						<Route path="/challenge" element={
@@ -262,7 +262,7 @@ export default function App() {
 
 						<Route path="/messages/:id" element={<>{
 							(initComplete) &&
-							<Messages viewCommon={commonData}  changeUserProfileDisplay={changeUserProfileDisplay} />
+							<Messages viewCommon={commonData} changeUserProfileDisplay={changeUserProfileDisplay} />
 						}</>}
 						/>
 

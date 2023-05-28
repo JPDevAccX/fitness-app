@@ -1,5 +1,4 @@
 import { Modal, Button, Form } from 'react-bootstrap'
-import './css/communityPosts.scss'
 import CommunityService from '../services/communityService'
 
 export default function AddPostModal(props) {

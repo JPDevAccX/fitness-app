@@ -6,6 +6,7 @@ import { ReactComponent as LolFace } from '../images/lol2.svg'
 import { Card, Button, Col, Row } from 'react-bootstrap';
 import SingleComment from '../components/SingleComment'
 import CommunityService from '../services/communityService'
+import UserProfileService from '../services/userProfileService'
 import { formatTime, formatMonth } from '../utils/utils'
 import { getProfileImageUrl } from '../utils/image'
 
@@ -54,6 +55,7 @@ function PostPage(props) {
     }
 
     const communityService = new CommunityService(props.viewCommon.net)
+		const userProfileService = new UserProfileService(props.viewCommon.net);
 
     const [inputValue, setInputValue] = useState('');
 
@@ -91,9 +93,16 @@ function PostPage(props) {
             <SingleComment
                 key={comment._id}
                 comment={comment}
+								handleDisplayProfile={() => handleDisplayProfile(comment.username)}
             />
         )
     }
+
+		function handleDisplayProfile(userName) {
+			userProfileService.getProfile(userName).then((data) => {
+				props.changeUserProfileDisplay(data) ;
+			}) ;
+	}
 
     return (
         <>
@@ -102,7 +111,7 @@ function PostPage(props) {
                     <Card>
                         <Card.Body>
                             <Card.Text>
-                                <img className='post-page-user-image' src={url} alt='' />
+                                <img className='post-page-user-image' src={url} onClick={() => handleDisplayProfile(props.currentPost.username)} alt='' />
                                 <span className='username'>{props.currentPost.username}</span>
                                 <span className='time'>{formatTime(props.currentPost.date)}</span>
                                 {" "}

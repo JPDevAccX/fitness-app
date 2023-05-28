@@ -1,4 +1,3 @@
-import './css/communityPosts.scss'
 import { Card, Button } from 'react-bootstrap'
 import { ReactComponent as Heart } from "../images/redheart.svg"
 import { ReactComponent as Comments } from "../images/comments.svg"
@@ -57,6 +56,11 @@ function SinglePost(props) {
 
     const navigate = useNavigate();
 
+		const handleCardClick = (e) => {
+			// Ignore clicks that were on a child element
+			if (e.target === e.currentTarget) navigateToPostView() ;
+		}
+
     const navigateToPostView = () => {
         props.changeCurrentPost(props.post)
         navigate(`/postview`)
@@ -64,13 +68,11 @@ function SinglePost(props) {
     return (
         <>
             <Card className='post-card'>
-                <Card.Body className='post-card-body'>
+                <Card.Body className='post-card-body' onClick={handleCardClick}>
                     <img onClick={props.handleDisplayProfile} className='post-card-image' src={url}></img>
                     <div className='post-username'>
-                        <Card.Title>{props.post.username}</Card.Title>
-                        <Card.Text onClick={navigateToPostView}>
-                            {props.post.title}
-                        </Card.Text>
+                        <Card.Title className="my-cursor-pointer" onClick={props.handleDisplayProfile}>{props.post.username}</Card.Title>
+                        <Card.Text onClick={handleCardClick}>{props.post.title}</Card.Text>
                     </div>
                     <div className='post-icon-wrapper' >
                         <div className='post-card-icons'>

@@ -9,7 +9,7 @@ function SingleComment(props) {
 
     return (
         <Card className='comment-card'>
-            <img className='comment-card-image' src={url}></img>
+            <img className='comment-card-image my-cursor-pointer' src={url} onClick={props.handleDisplayProfile}></img>
             <Card.Body className='comment-body'>
                 <Card.Title>
                     <span className='username'>{props.comment.username}</span>
