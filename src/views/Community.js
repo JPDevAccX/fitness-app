@@ -1,5 +1,5 @@
 import './css/community.scss'
-import CommunityPosts from '../components/CommunityPosts'
+import CommunityPostCards from '../components/CommunityPostCards'
 import AddPostModal from '../components/AddPostModal'
 import { Row, Col, Form, Button, Card } from 'react-bootstrap'
 import { useState, useEffect } from 'react'
@@ -99,7 +99,7 @@ function Community(props) {
                 </Col>
                 <Col className='right-panel-wrapper' lg={6} >
                     <div className='community-right-panel'>
-                        <CommunityPosts
+                        <CommunityPostCards
                             viewCommon={props.viewCommon}
                             posts={posts}
                             changeCurrentPost={props.changeCurrentPost}

@@ -1,12 +1,12 @@
-import './css/communityPosts.scss'
-import SinglePost from './SinglePost'
+import './css/communityPostCards.scss'
+import CommunityPostCard from './CommunityPostCard'
 
 function CommunityPosts(props) {
 
     const showPosts = () => {
 
         return props.posts?.map((post) =>
-            <SinglePost
+            <CommunityPostCard
                 key={post._id}
 								viewCommon={props.viewCommon}
                 post={post}
