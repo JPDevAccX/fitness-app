@@ -70,18 +70,3 @@
         }    
     }    
 }
-
-@media screen and (min-width: 280px) and (max-width: 768px) {
-
-    .posts-wrapper {
-        margin-top: 30px;
-
-        .post-card {
-            width: 100%; 
-
-            .post-username{
-                width: 160px !important;
-            }           
-        }
-    }
-}

@@ -45,4 +45,7 @@ export default class CommunityService extends NetService {
         return this.post(`lol/${postId}`, {});
     }
 
+		findUsers(searchArgs) {
+			return this.get('findUsers/' + encodeURIComponent(searchArgs.userNameSubString || '_') + '/' + encodeURIComponent(searchArgs.userLocation || '_')) ;
+		}
 }
