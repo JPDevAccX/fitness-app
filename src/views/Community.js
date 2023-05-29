@@ -9,107 +9,128 @@ import { getProfileImageUrl } from '../utils/image'
 import { ReactComponent as Message } from '../images/message.svg'
 import { ReactComponent as Add } from '../images/plus.svg'
 import MessageService from '../services/messageService'
+import Select from '../components/Select'
+
+// Data
+import locationOpts from "../data/geoRegions.json" ;
 
 function Community(props) {
-    const [posts, changePosts] = useState([])
-    const [user, changeUser] = useState()
+	const [posts, changePosts] = useState([])
+	const [userSearchResults, changeUserSearchResults] = useState([])
 
-    const communityService = new CommunityService(props.viewCommon.net);
-		const userProfileService = new UserProfileService(props.viewCommon.net);
-    const messageService = new MessageService(props.viewCommon.net);
+	const communityService = new CommunityService(props.viewCommon.net);
+	const userProfileService = new UserProfileService(props.viewCommon.net);
+	const messageService = new MessageService(props.viewCommon.net);
 
-    useEffect(() => {
-        communityService.getCommunityPosts()
-            .then(data => {
-                changePosts(data)
-            })
-            .catch(error => {
-                console.log(error)
-            })
-    }, [])
+	useEffect(() => {
+		communityService.getCommunityPosts()
+			.then(data => {
+				changePosts(data)
+			})
+			.catch(error => {
+				console.log(error)
+			})
+	}, [])
 
-    const [show, setShow] = useState(false);
+	const [show, setShow] = useState(false);
 
-    const addPostHandler = () => {
-        setShow(true)
-    }
+	// User-search form fields
+	const [formValues, changeFormValues] = useState({
+		userNameSubString: "",
+		userLocation: ""
+	});
 
-    const findUser = async (data) => {
-        return await userProfileService.getProfile(data)
-    }
+	const addPostHandler = () => {
+		setShow(true)
+	}
 
-    const submitHandler = async (e) => {
-        e.preventDefault()
-        const data = e.target[0].value
-        const userProfile = await findUser(data)
-        changeUser(userProfile)
-    }
+	function handleUserSearchFieldChange(e) {
+		const newFormValues = {...formValues, [e.target.name]: e.target.value} ;
+		changeFormValues(newFormValues) ;
+		changeUserSearchResults([]) ;
+		
+		if (newFormValues.userNameSubString.length > 0 && newFormValues.userNameSubString.length < 3) return ;
+		if (newFormValues.userNameSubString === "" && newFormValues.userLocation === "") return ;
 
-    const sendmessage = async () => {
-    }
+		handleUserSearch(newFormValues.userNameSubString, newFormValues.userLocation) ;
+	}
 
-    const displayUsercard = (user = null) => {
-        if (user) {
-            const url = getProfileImageUrl(user.imageUrl)
-            return (
-                <Card className='user-card'>
-                    <Card.Img className='user-card-img' onClick={() => handleDisplayProfile(user.userName)} variant="top" src={url} />
-                    <Card.Body>
-                        <Card.Title className='user-card-username'>{user.userName}</Card.Title>
-                        <Card.Text>
-                        </Card.Text>
-                        <div className='icons'>
-                            <Message onClick={sendmessage} className='message-icon' />
-                            <Add className='add-icon' />
-                        </div>
-                    </Card.Body>
-                </Card>
-            )
-        }
-    }
+	const handleUserSearch = async (userNameSubString, userLocation) => {
+		const searchResults = await communityService.findUsers({userNameSubString, userLocation}) ;
+		changeUserSearchResults(searchResults) ;
+	}
+
+	const sendmessage = async () => {
+	}
+
+	const displayUserSearchResults = () => {
+		return userSearchResults.map((user) => {
+			const url = getProfileImageUrl(user.imageUrl)
+			return (
+				<Card className='user-card' key={user.userName}>
+					<Card.Img className='user-card-img' onClick={() => handleDisplayProfile(user.userName)} variant="top" src={url} />
+					<Card.Body>
+						<Card.Title className='user-card-username'>{user.userName}</Card.Title>
+						<Card.Text>
+						</Card.Text>
+						<div className='icons'>
+							<Message onClick={sendmessage} className='message-icon' />
+							<Add className='add-icon' />
+						</div>
+					</Card.Body>
+				</Card>
+			)
+		});
+	}
 
 	function handleDisplayProfile(userName) {
 		userProfileService.getProfile(userName).then((data) => {
-			props.changeUserProfileDisplay(data) ;
-		}) ;
+			props.changeUserProfileDisplay(data);
+		});
 	}
 
-    return (
-        <>
-            <Row className='community-container'>
-                <Col lg={5} className='community-left-panel'>
-                    <div className='community-left-panel-wrapper'>
-                        <Button onClick={addPostHandler} variant="primary" size="lg"> Create Post </Button>
-                        <br />
-                        <Form className='form-search' onSubmit={submitHandler}>
-                            <Form.Group controlId="exampleForm.ControlInput1">
-                                <Form.Control type="text" placeholder="Search for users..." />
-                            </Form.Group>
-                            <Button className='search-btn' variant="primary" type="submit">Search</Button>
-                        </Form>
-                        {displayUsercard(user)}
-                    </div>
-                    <AddPostModal
-                        show={show}
-                        handleClose={() => setShow(false)}
-                        posts={posts}
-                        changePosts={changePosts}
-                        viewCommon={props.viewCommon}
-                    />
-                </Col>
-                <Col className='right-panel-wrapper' lg={6} >
-                    <div className='community-right-panel'>
-                        <CommunityPostCards
-                            viewCommon={props.viewCommon}
-                            posts={posts}
-                            changeCurrentPost={props.changeCurrentPost}
-                            handleDisplayProfile={handleDisplayProfile}
-                        />
-                    </div>
-                </Col>
-            </Row>
-        </>
-    )
+	locationOpts[0] = {"value": "", "displayName": "- Any Location -"} ;
+
+	return (
+		<>
+			<Row className='community-container'>
+				<Col lg={6} className='community-left-panel'>
+					<h2>User Search</h2>
+					<Form id="user_search_form" className='form-search'>
+						<Form.Control
+							name="userNameSubString"
+							placeholder="Username"
+							className="mb-1"
+							onChange={handleUserSearchFieldChange}
+							isInvalid={formValues.userNameSubString.length > 0 && formValues.userNameSubString.length < 3}
+						/>
+						<Select id='userLocation' opts={locationOpts} onChange={handleUserSearchFieldChange} />
+					</Form>
+					<div className="user-cards">
+						{displayUserSearchResults()}
+					</div>
+
+					<AddPostModal
+						show={show}
+						handleClose={() => setShow(false)}
+						posts={posts}
+						changePosts={changePosts}
+						viewCommon={props.viewCommon}
+					/>
+				</Col>
+
+				<Col className='community-right-panel'>
+					<Button onClick={addPostHandler} variant="primary" size="lg" className="m-auto mb-4"> Create Post </Button>
+					<CommunityPostCards
+						viewCommon={props.viewCommon}
+						posts={posts}
+						changeCurrentPost={props.changeCurrentPost}
+						handleDisplayProfile={handleDisplayProfile}
+					/>
+				</Col>
+			</Row>
+		</>
+	)
 }
 
 export default Community
