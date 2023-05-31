@@ -19,8 +19,9 @@ import NavigationBar from "./components/Navbar";
 import Footer from "./components/Footer";
 import StatusMessage from "./components/StatusMessage";
 import ErrorModal from "./components/ErrorModal";
-import Spinner from "./components/Spinner";
+import ConfirmationMessageModal from "./components/ConfirmationMessageModal";
 import ProfileModal from './components/ProfileModal'
+import Spinner from "./components/Spinner";
 
 // Our views (pages)
 import UserRegister from "./views/UserRegister";
@@ -150,11 +151,14 @@ export default function App() {
 		}
 		else setError(null);
 	}
-	const [errorMessage, changeErrorMessage] = useState(null); // Modal error message
+
+	// State for modals
+	const [errorMessage, changeErrorMessage] = useState(null); // Error message
+	const [confirmationModalData, changeConfirmationModalData] = useState(null); // Confirmation message
+	const [userProfileDisplay, changeUserProfileDisplay] = useState(null) // Profile
 
 	const [currentPost, changeCurrentPost] = useState({}); // (Community and PostPage shared state)
 	const [currentCustomWorkout, changeCurrentCustomWorkout] = useState(); // (CustomWorkout, Library, SingleCustomPage shared state)
-	const [userProfileDisplay, changeUserProfileDisplay] = useState(null) // (Profile modal)
 
 	// the quotes end-point is not responsive at the moment so this is commented out
 	// const getQuote = async () => {
@@ -168,6 +172,7 @@ export default function App() {
 			<Spinner isActive={slowRequestCounter > 0} />
 			<StatusMessage msgData={msgData} setMsgData={setMsgData} />
 			<ErrorModal	handleClose={() => changeErrorMessage(null)} errorMessage={errorMessage} />
+			<ConfirmationMessageModal	handleClose={() => changeConfirmationModalData(null)} data={confirmationModalData} />
 			<ProfileModal
         size="lg"
         show={userProfileDisplay}
@@ -194,6 +199,8 @@ export default function App() {
 								viewCommon={commonData}
 								changeCurrentPost={changeCurrentPost}
 								changeUserProfileDisplay={changeUserProfileDisplay}
+								changeConfirmationModalData={changeConfirmationModalData}
+								currentUserName={userDataState.profile?.userName}
 							/>
 						} />
 
@@ -250,7 +257,11 @@ export default function App() {
 
 						<Route path="/contacts" element={<>{
 							(initComplete) &&
-							<Contacts viewCommon={commonData} changeUserProfileDisplay={changeUserProfileDisplay} />
+							<Contacts
+								viewCommon={commonData}
+								changeUserProfileDisplay={changeUserProfileDisplay}
+								changeConfirmationModalData={changeConfirmationModalData}
+							/>
 						}</>}
 						/>
 

@@ -5,7 +5,7 @@ import "./css/contacts.scss"
 import React, { useEffect, useRef } from "react";
 
 // React-bootstrap components
-import { Button, Form, Modal } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 
 // Network services
 import ContactService from "../services/contactService";
@@ -21,7 +21,7 @@ import { UserContext } from "../contexts/User"
 
 // ==============================================================================
 
-export default function Contacts({viewCommon, changeUserProfileDisplay}) {
+export default function Contacts({viewCommon, changeUserProfileDisplay, changeConfirmationModalData}) {
 	const contactService = new ContactService(viewCommon.net);
 	const messageService = new MessageService(viewCommon.net);
 	const userProfileService = new UserProfileService(viewCommon.net);
@@ -31,7 +31,6 @@ export default function Contacts({viewCommon, changeUserProfileDisplay}) {
 	const [ addContactUserName, changeAddContactUserName ] = React.useState("") ;
 	const [ writingMessageTo, changeWritingMessageTo ] = React.useState(null) ;
 	const [ isSendingMessage, changeIsSendingMessage ] = React.useState(false) ;
-	const [ contactReqSentTo, changeContactReqSentTo ] = React.useState(null) ;
 
 	const timerRef = useRef(null);
 
@@ -72,7 +71,10 @@ export default function Contacts({viewCommon, changeUserProfileDisplay}) {
 	function handleSendContactRequest(e) {
 		e.preventDefault() ;
 		contactService.createRequest(addContactUserName).then(() => {
-			changeContactReqSentTo(addContactUserName) ;
+			changeConfirmationModalData({
+				title: 'Contact Request',
+				message: `Contact Request was successfully sent to ${addContactUserName}`
+			}) ;
 		}).finally(() => changeAddContactUserName("")) ;
 	}
 
@@ -81,10 +83,6 @@ export default function Contacts({viewCommon, changeUserProfileDisplay}) {
 			const newContactsData = contacts.filter((contact) => contact.userName !== userName) ;
 			userDataDispatch({ type: "setContacts", data: newContactsData });
 		}) ;
-	}
-
-	function handleCloseModal() {
-		changeContactReqSentTo(null) ;
 	}
 
 	function handleDisplayProfile(userName) {
@@ -96,18 +94,6 @@ export default function Contacts({viewCommon, changeUserProfileDisplay}) {
 	return (
 		<>
 			<div className="page-contacts">
-				<Modal show={contactReqSentTo} onHide={handleCloseModal}>
-					<Modal.Header closeButton>
-						<Modal.Title>Contact Request</Modal.Title>
-					</Modal.Header>
-					<Modal.Body>Contact Request was successfully sent to {contactReqSentTo}</Modal.Body>
-					<Modal.Footer>
-						<Button variant="secondary" onClick={handleCloseModal}>
-							Close
-						</Button>
-					</Modal.Footer>
-				</Modal>
-
 				<h1>Contacts</h1>
 
 				<Form id="form" className="d-flex p-3 justify-content-center" onSubmit={handleSendContactRequest}>

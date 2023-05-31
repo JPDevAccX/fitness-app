@@ -38,7 +38,7 @@ export default function CreateMessageModal({ contacts, writingMessageTo, inputsD
 	
 	let recipientOpts ;
 	if (writingMessageTo) recipientOpts = [writingMessageTo] ;
-	else recipientOpts = [{value: "", displayName: "- Select -"}, ...contacts.map((contact) => contact.userName)] ;
+	else recipientOpts = [{value: "", displayName: "- Select -"}, ...(contacts || []).map((contact) => contact.userName)] ;
 
 	return (
 		<Modal className='component-create-message' show={writingMessageTo !== null} onHide={handleClose}>
