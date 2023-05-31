@@ -62,3 +62,8 @@ body {
 .my-cursor-pointer {
 	cursor: pointer !important ;
 }
+
+.my-svg-disabled {
+	pointer-events: none ;
+	filter: contrast(0.1) ;
+}
