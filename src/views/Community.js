@@ -15,6 +15,7 @@ import Select from '../components/Select'
 
 // Data
 import locationOpts from "../data/geoRegions.json" ;
+import ageOpts from "../data/ageOpts.json" ;
 
 function Community(props) {
 	const [posts, changePosts] = useState([])
@@ -42,7 +43,8 @@ function Community(props) {
 	// User-search form fields
 	const [formValues, changeFormValues] = useState({
 		userNameSubString: "",
-		userLocation: ""
+		userLocation: "",
+		userAge: ""
 	});
 
 	const addPostHandler = () => {
@@ -55,13 +57,13 @@ function Community(props) {
 		changeUserSearchResults([]) ;
 		
 		if (newFormValues.userNameSubString.length > 0 && newFormValues.userNameSubString.length < 3) return ;
-		if (newFormValues.userNameSubString === "" && newFormValues.userLocation === "") return ;
+		if (newFormValues.userNameSubString === "" && newFormValues.userLocation === "" && newFormValues.userAge === "") return ;
 
-		handleUserSearch(newFormValues.userNameSubString, newFormValues.userLocation) ;
+		handleUserSearch(newFormValues.userNameSubString, newFormValues.userLocation, newFormValues.userAge) ;
 	}
 
-	const handleUserSearch = async (userNameSubString, userLocation) => {
-		const searchResults = await communityService.findUsers({userNameSubString, userLocation}) ;
+	const handleUserSearch = async (userNameSubString, userLocation, userAge) => {
+		const searchResults = await communityService.findUsers({userNameSubString, userLocation, userAge}) ;
 		changeUserSearchResults(searchResults) ;
 	}
 
@@ -127,6 +129,7 @@ function Community(props) {
 	}
 
 	locationOpts[0] = {"value": "", "displayName": "- Any Location -"} ;
+	ageOpts[0] = {"value": "", "displayName": "- Any Age -"} ;
 
 	return (
 		<>
@@ -140,15 +143,15 @@ function Community(props) {
 			<Row className='community-container'>
 				<Col lg={6} className='community-left-panel'>
 					<h2>User Search</h2>
-					<Form id="user_search_form" className='form-search'>
+					<Form id="user_search_form" className='form-search d-flex gap-2'>
 						<Form.Control
 							name="userNameSubString"
 							placeholder="Username"
-							className="mb-1"
 							onChange={handleUserSearchFieldChange}
 							isInvalid={formValues.userNameSubString.length > 0 && formValues.userNameSubString.length < 3}
 						/>
 						<Select id='userLocation' opts={locationOpts} onChange={handleUserSearchFieldChange} />
+						<Select id='userAge' opts={ageOpts} onChange={handleUserSearchFieldChange} />
 					</Form>
 					<div className="user-cards">
 						{displayUserSearchResults()}

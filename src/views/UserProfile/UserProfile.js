@@ -31,6 +31,7 @@ import StatusLib from '../../libs/statusLib';
 import { UserContext } from "../../contexts/User"
 
 // Data
+import ageOpts from "../../data/ageOpts.json" ;
 import locationOpts from "../../data/geoRegions.json" ;
 
 // ==============================================================================
@@ -193,15 +194,6 @@ export default function UserProfile({nextPage, viewCommon}) {
 
 		userProfileService.current.updateFieldValue('selectedGoalIds', newSelectedGoalIds) ;
 	}
-
-	const ageOpts = [
-		{value: '', displayName: '- Select -'},
-		{value: '18-24'}, 
-		{value: '25-34'}, {value: '35-44'}, 
-		{value: '45-54'}, {value: '55-64'}, 
-		{value: '65 or over'}, 
-	] ;
-
 	const dietPracticeOpts = [
 		{value: '', displayName: '- Select -'},
 		{value: 'none', displayName: 'None (mixed diet)'},

@@ -46,6 +46,10 @@ export default class CommunityService extends NetService {
     }
 
 		findUsers(searchArgs) {
-			return this.get('findUsers/' + encodeURIComponent(searchArgs.userNameSubString || '_') + '/' + encodeURIComponent(searchArgs.userLocation || '_')) ;
+			const url = 'findUsers/' +
+				encodeURIComponent(searchArgs.userNameSubString || '_') + '/' +
+				encodeURIComponent(searchArgs.userLocation || '_') + '/' +
+				encodeURIComponent(searchArgs.userAge || '_') ;
+			return this.get(url) ;
 		}
 }
