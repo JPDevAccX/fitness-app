@@ -29,7 +29,7 @@ export default function ShowProfile({viewCommon}) {
 			<div className="page-showprofile">
 				{userProfile &&
 				<>
-					<h1>Profile for {userProfile.userName}</h1>
+					<h1 className="page-title">Profile for {userProfile.userName}</h1>
 					<ProfileInfo userProfile={userProfile} />
 				</>}
 			</div>

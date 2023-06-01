@@ -133,6 +133,7 @@ function Community(props) {
 
 	return (
 		<>
+			<h1 className="page-title">Community</h1>
 			<CreateMessageModal
 				writingMessageTo={writingMessageTo}
 				inputsDisabled={isSendingMessage}

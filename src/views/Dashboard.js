@@ -119,41 +119,45 @@ export default function Dashboard({viewCommon, changeUserProfileDisplay}) {
 
 	return (
 		<div className="page-dashboard">
-			<h1>Dashboard</h1>
-			<div className="my-notifications">
-				<h2>Notifications</h2>
-			{
-				formattedNotifications.map((formattedNotification) =>
-					<NotificationCard
-						key={formattedNotification.id}
-						data={formattedNotification}
-						handleSourceImageClick={() => handleDisplayProfile(formattedNotification.sourceUserName)}
-					/>)
-			}
-			</div>
+			<h1 className="page-title">Dashboard</h1>
+			<div className="page-dashboard-content">
+				<div className="my-notifications">
+					<h2>Notifications</h2>
+					<div className="d-flex flex-wrap gap-2 justify-content-center">
+				{
+					formattedNotifications.map((formattedNotification) =>
+						<NotificationCard
+							key={formattedNotification.id}
+							data={formattedNotification}
+							handleSourceImageClick={() => handleDisplayProfile(formattedNotification.sourceUserName)}
+						/>)
+				}
+					</div>
+				</div>
 
-		{(weightTargetData) && 
-			<div className="my-goals">
-				<h2>Goals</h2>
 			{(weightTargetData) && 
-				<TargetProgressCard
-					imageUrl='images/goalTiles/lose_weight.avif'
-					title='Weight'
-					percent={weightTargetData.progressPercent}
-					initial={weightTargetData.initialValueString}
-					target={weightTargetData.targetValueString}
-				/>}
-			</div>}
+				<div className="my-goals">
+					<h2>Goals</h2>
+				{(weightTargetData) && 
+					<TargetProgressCard
+						imageUrl='images/goalTiles/lose_weight.avif'
+						title='Weight'
+						percent={weightTargetData.progressPercent}
+						initial={weightTargetData.initialValueString}
+						target={weightTargetData.targetValueString}
+					/>}
+				</div>}
 
-			<div className="my-tools">
-				<h2>Tools</h2>
-				<BMICard
-					handleRecordWeightAndHeight={handleRecordWeightAndHeight}
-					heightMetric={profile.height}
-					weightMetric={profile.weight}
-					heightUnits={prefs.heightUnits}
-					weightUnits={prefs.weightUnits}
-				/>
+				<div className="my-tools">
+					<h2>Tools</h2>
+					<BMICard
+						handleRecordWeightAndHeight={handleRecordWeightAndHeight}
+						heightMetric={profile.height}
+						weightMetric={profile.weight}
+						heightUnits={prefs.heightUnits}
+						weightUnits={prefs.weightUnits}
+					/>
+				</div>
 			</div>
 		</div>
   )

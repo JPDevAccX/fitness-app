@@ -163,7 +163,7 @@ export default function UserAccountSettings({viewCommon, logout}) {
 	// Template
   return (
 		<div className="page-user-account-settings">
-			<h1>Account Settings</h1>
+			<h1 className="page-title">Account Settings</h1>
 			
 			<div className="user-account-settings d-flex flex-column gap-4" style={{maxWidth: "840px"}}>
 				<Form onSubmit={(event) => submitHandlerPwdChange(event)}>

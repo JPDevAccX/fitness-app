@@ -240,7 +240,7 @@ export default function UserProfile({nextPage, viewCommon}) {
 	// Template
   return (
 		<div className="page-user-profile">
-			<h1>User Profile</h1>
+			<h1 className="page-title">User Profile</h1>
 
 			<div className="d-flex justify-content-around">
 				<div className="user-profile-tab-link">

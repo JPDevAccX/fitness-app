@@ -7,14 +7,16 @@ import "./css/challenge.scss"
 const Challenge = () => {
 
   return (
-
-    <Row className="challenge-wrapper" >
-      <Col sm={12} lg={5} className="challenge-card">
-        <WaterIntakeChallenge className="water" />
-        <WalkRunChallenge className="walkrun" />
-        <PlankChallenge className="plank" />
-      </Col>
-    </Row>
+		<>
+			<h1 className="page-title">Challenges</h1>
+			<Row className="challenge-wrapper" >
+				<Col sm={12} lg={5} className="challenge-card">
+					<WaterIntakeChallenge className="water" />
+					<WalkRunChallenge className="walkrun" />
+					<PlankChallenge className="plank" />
+				</Col>
+			</Row>
+		</>
   );
 }
 export default Challenge;

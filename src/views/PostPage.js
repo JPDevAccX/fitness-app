@@ -105,7 +105,8 @@ function PostPage(props) {
 	}
 
     return (
-        <>
+        <div className="page-community-post">
+					<h1 className="page-title">Viewing Post</h1>
             <Row className='post-page-container'>
                 <Col lg={6} className='post-page-left-panel'>
                     <Card>
@@ -150,7 +151,7 @@ function PostPage(props) {
                     {showComments()}
                 </Col>
             </Row>
-        </>
+        </div>
     )
 }
 
