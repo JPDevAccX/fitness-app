@@ -117,7 +117,7 @@ export default function Messages({viewCommon, changeUserProfileDisplay}) {
 	return (
 		<>
 			<div className="page-messages">
-				<h1>Messages</h1>
+				<h1 className="page-title">Messages</h1>
 					<div className="my-compose-button-container text-center p-3">
 						<Button variant="outline-primary" onClick={() => changeWritingMessageTo(undefined)}>Compose Message</Button>
 					</div>

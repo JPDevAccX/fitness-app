@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&family=Raleway:wght@200;300;400&family=Raleway+Dots&family=Rubik+Pixels&family=Sacramento&family=Special+Elite&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&family=Raleway:wght@200;300;400&&family=Rubik+Pixels&display=swap');
 
 * {
 	margin: 0;
@@ -16,7 +16,6 @@ body {
 .my-container {
 	min-height: max(100vh, 800px);
 	padding-top: 30px;
-	padding-right: 8px;
 	color: #fff;
 }
 
@@ -28,6 +27,12 @@ body {
 	width: 18rem; // (default card width)
 	&.wide {
 		width: 100% ;
+	}
+	&.half-width-lg {
+		width: 100% ;
+		@media (min-width: 768px) {
+			width: calc(50% - 8px) ;
+		}
 	}
 }
 
@@ -66,4 +71,21 @@ body {
 .my-svg-disabled {
 	pointer-events: none ;
 	filter: contrast(0.1) ;
+}
+
+h1 {
+  font-size: 2.5rem;
+	@media screen and (min-width: 268px) and (max-width: 767px) {
+		text-align: center;
+	}
+}
+
+.page-title {
+	color: #f5f5f5;
+	font-family: "Raleway" !important;
+	@media screen and (min-width: 268px) and (max-width: 767px) {
+		margin-left: 0 ;
+	}
+	margin-left: -2vw;
+	margin-bottom: 1em;
 }

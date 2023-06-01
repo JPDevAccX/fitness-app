@@ -4,7 +4,7 @@ import { getProfileImageUrl } from "../utils/image";
 
 export default function ContactCard({data: {imageUrl, userName}, handleSendMessage, handleRemoveContact, handleDisplayProfile}) {
   return (
-    <Card className="component-contact-card wide text-center">
+    <Card className="component-contact-card half-width-lg text-center">
 			<Card.Body className="p-2">
 				<div className="d-flex align-items-center gap-2">
 					<div className={'contact-card-image my-link-pointer'} onClick={handleDisplayProfile}>

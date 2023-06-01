@@ -94,7 +94,7 @@ export default function Contacts({viewCommon, changeUserProfileDisplay, changeCo
 	return (
 		<>
 			<div className="page-contacts">
-				<h1>Contacts</h1>
+				<h1 className="page-title">Contacts</h1>
 
 				<Form id="form" className="d-flex p-3 justify-content-center" onSubmit={handleSendContactRequest}>
 					<Form.Group controlId="add_contact_username">
@@ -108,7 +108,7 @@ export default function Contacts({viewCommon, changeUserProfileDisplay, changeCo
 					<Button variant="secondary" type="submit" disabled={!addContactUserName}>Add</Button>
 				</Form>
 
-				<div className="my-contacts">
+				<div className="d-flex flex-wrap gap-2 justify-content-center">
 				{
 					contacts.map((contact) => 
 						<ContactCard

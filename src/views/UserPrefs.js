@@ -61,7 +61,7 @@ export default function UserSitePrefs({nextPage, viewCommon}) {
 	// Template
   return (
 		<div className="page-user-prefs">
-			<h1>Site Preferences</h1>
+			<h1 className="page-title">Site Preferences</h1>
 
 			<Form className="user-prefs d-flex flex-column gap-3">
 				<Row className="gap-3">

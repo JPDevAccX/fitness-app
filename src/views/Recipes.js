@@ -1,4 +1,4 @@
-import "../components/css/recipeCard.scss"
+import "./css/recipes.scss"
 import SingleRecipeCard from '../components/SingleRecipeCard'
 import FoodAPIClient from "../services/API/foodApiService"
 import { Button, Col, Row, Form } from 'react-bootstrap'
@@ -141,7 +141,8 @@ function Recipes(props) {
     }
 
     return (
-        <>
+        <div className="page-recipes">
+					<h1 className="page-title">Recipes</h1>
             <Row lg={12} className="the-row">
                 <Col lg={3} md={12} className="search-column search-one">
                     <Form onSubmit={submitHandlerRecipe} >
@@ -184,7 +185,7 @@ function Recipes(props) {
                     </div>
                 </Col>
             </Row>
-        </>
+        </div>
     )
 }
 

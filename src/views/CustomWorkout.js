@@ -159,9 +159,9 @@ function CustomWorkout(props) {
     }
 
     return (
-        <>
+        <div className="page-custom-workout">
+					<h1 className='page-title'>Build your workout</h1>
             <Row className='custom-workout-container'>
-                <h1 className='page-title'>Build your workout</h1>
                 <Col lg={4} className='left-section'>
                     {generateCustomCards()}
                 </Col>
@@ -219,7 +219,7 @@ function CustomWorkout(props) {
                     </Col>
                 </Col>
             </Row>
-        </>
+        </div>
     )
 }
 

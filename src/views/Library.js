@@ -1,6 +1,5 @@
 import './css/library.scss'
-import '../components/css/recipeCard.scss'
-import { Row, Card } from 'react-bootstrap'
+import { Card } from 'react-bootstrap'
 import { useEffect, useState } from 'react'
 import FoodAPIClient from '../services/API/foodApiService'
 import ExerciseAPIClient from '../services/API/exerciseApiService'
@@ -65,7 +64,8 @@ function Library(props) {
     }
 
     return (
-        <>
+        <div className="page-library">
+					<h1 className="page-title">Library</h1>
             <h1>My recipes</h1>
             <div className='recipe-wrapper' >
                 {showRecipes()}
@@ -74,7 +74,7 @@ function Library(props) {
             <div className='recipe-wrapper'>
                 {showWorkouts()}
             </div>
-        </>
+        </div>
     )
 }
 
