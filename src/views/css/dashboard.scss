@@ -3,11 +3,9 @@
 		display: flex ;
 		flex-direction: column ;
 		gap: 32px;
+	}
 
-		.my-notifications {
-			display: flex ;
-			flex-direction: column ;
-			gap: 16px;
-		}
+	h2 {
+		text-align: center;
 	}
 }

@@ -5,7 +5,7 @@ import { roundValue } from "../utils/units";
 export default function TargetProgressCard({imageUrl, title, percent, initial, target}) {
 
   return (
-    <Card className="component-target-progress-card wide text-center">
+    <Card className="component-target-progress-card pc75-width-lg text-center">
 			<Card.Title>{title}</Card.Title>
 			<Card.Body className="p-2">
 				<div className="d-flex align-items-center gap-2">

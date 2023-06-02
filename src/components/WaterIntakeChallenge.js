@@ -51,7 +51,7 @@ function WaterIntakeChallenge() {
           <p>Goal for today: {calculateGoal()} cups</p>
           <p>Water intake so far: {waterIntake.toFixed(2)} cups</p>
           {daysLeft > 0 ? (
-            <>
+            <div className="d-flex gap-1 justify-content-center">
               <Button onClick={handleAddCup} disabled={!isActive}>
                 Add 1 Cup
               </Button>
@@ -64,7 +64,7 @@ function WaterIntakeChallenge() {
               <Button onClick={handleReset} disabled={waterIntake === 0}>
                 Reset
               </Button>
-            </>
+            </div>
           ) : (
             <p>Congratulations, you completed the challenge!</p>
           )}

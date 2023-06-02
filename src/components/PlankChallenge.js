@@ -58,12 +58,14 @@ function PlankChallenge() {
           <p>Goal for today: {formatTime(goal)} seconds</p>
           {daysLeft > 0 ? (
             <>
-              <Button onClick={handleStart} disabled={isActive}>
-                Start Plank
-              </Button>
-              <Button onClick={handleStop} disabled={!isActive}>
-                Reset
-              </Button>
+							<div className="d-flex gap-1 justify-content-center">
+								<Button onClick={handleStart} disabled={isActive}>
+									Start Plank
+								</Button>
+								<Button onClick={handleStop} disabled={!isActive}>
+									Reset
+								</Button>
+							</div>
               <h2 disabled>{timeLeft}</h2>
             </>
           ) : (

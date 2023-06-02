@@ -183,7 +183,7 @@ function CustomWorkout(props) {
                             </Form.Group>
                             <br />
                             <Form.Group controlId="formBasicEmail">
-                                <Form.Control type="text" placeholder="Reps" defaultValue={formValues.reps} />
+                                <Form.Control type="text" className="mb-2" placeholder="Reps" defaultValue={formValues.reps} />
                             </Form.Group>
                             <br />
                             <Button className='orange-button' variant="primary" type="submit">Add</Button>
