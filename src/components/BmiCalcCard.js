@@ -100,7 +100,7 @@ export default function BMICard({weightMetric, heightMetric, weightUnits, height
 	}
 
   return (
-    <Card className="component-bmi-calc-card wide text-center">
+    <Card className="component-bmi-calc-card pc75-width-lg text-center">
 			<Card.Body className="p-2 d-flex flex-column gap-3">
 				<Card.Title>BMI Calculator</Card.Title>
 

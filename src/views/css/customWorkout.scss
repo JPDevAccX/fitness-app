@@ -10,9 +10,7 @@
 		
 		.left-section {
 			padding-left: 0 !important;
-			height: 100vh;
 			@include flex-center(column);
-			align-items: center;
 			overflow-y: scroll;
 			background-attachment: fixed;
 			-ms-overflow-style: none;
@@ -27,8 +25,6 @@
 
 		.right-section {
 			@include flex-center();
-			min-height: 100vh;
-			padding-top: 30px;
 			padding-left: 0 !important;
 			flex-wrap: wrap;
 
@@ -46,8 +42,6 @@
 
 				.form-add-exercise {
 					@include flex-center(column);
-					align-items: center;
-					width: 60%;
 				}
 
 				.orange-button {
@@ -65,7 +59,6 @@
 				@include flex-center(column);
 				align-items: center;
 				margin: 25px 0;
-				height: 100vh;
 				overflow-y: scroll;
 				background-attachment: fixed;
 				-ms-overflow-style: none;
@@ -123,37 +116,5 @@
 			}
 		}
 
-	}
-}
-
-@media screen and (max-width: 668px) {
-	.page-custom-workout {
-		.custom-workout-container {
-			flex-direction: column;
-
-			.left-section {
-				width: 100%;
-			}
-
-			.right-section {
-				width: 100%;
-
-				.form {
-					width: 100%;
-				}
-
-				.form-section {
-					width: 100%;
-				}
-
-				.card-section {
-					width: 100%;
-				}
-
-				.form-drop {
-					width: 50%;
-				}
-			}
-		}
 	}
 }

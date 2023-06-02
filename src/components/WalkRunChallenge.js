@@ -55,7 +55,7 @@ function WalkRunChallenge() {
           </p>
           <p>Time : {formatTime(timeCounted)}</p>
           {daysLeft > 0 ? (
-            <>
+            <div className="d-flex gap-1 justify-content-center">
               <Button onClick={handleClick} disabled={isActive}>
                 Challenge
               </Button>
@@ -66,7 +66,7 @@ function WalkRunChallenge() {
                 Pause
               </Button>
               <Button onClick={handleReset}>Reset Time</Button>
-            </>
+            </div>
           ) : (
             <p>Congratulations, you completed the challenge!</p>
           )}

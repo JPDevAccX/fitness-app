@@ -138,18 +138,21 @@ export default function Dashboard({viewCommon, changeUserProfileDisplay}) {
 			{(weightTargetData) && 
 				<div className="my-goals">
 					<h2>Goals</h2>
-				{(weightTargetData) && 
-					<TargetProgressCard
-						imageUrl='images/goalTiles/lose_weight.avif'
-						title='Weight'
-						percent={weightTargetData.progressPercent}
-						initial={weightTargetData.initialValueString}
-						target={weightTargetData.targetValueString}
-					/>}
+					<div className="d-flex justify-content-center">
+					{(weightTargetData) && 
+						<TargetProgressCard
+							imageUrl='images/goalTiles/lose_weight.avif'
+							title='Weight'
+							percent={weightTargetData.progressPercent}
+							initial={weightTargetData.initialValueString}
+							target={weightTargetData.targetValueString}
+						/>}
+					</div>
 				</div>}
 
 				<div className="my-tools">
 					<h2>Tools</h2>
+					<div className="d-flex flex-wrap gap-2 justify-content-center">
 					<BMICard
 						handleRecordWeightAndHeight={handleRecordWeightAndHeight}
 						heightMetric={profile.height}
@@ -157,6 +160,7 @@ export default function Dashboard({viewCommon, changeUserProfileDisplay}) {
 						heightUnits={prefs.heightUnits}
 						weightUnits={prefs.weightUnits}
 					/>
+					</div>
 				</div>
 			</div>
 		</div>
